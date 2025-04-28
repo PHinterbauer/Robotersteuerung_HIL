@@ -48,12 +48,22 @@ pico_enable_stdio_usb(Robotersteuerung_HIL 0)
 
 # Add the standard library to the build
 target_link_libraries(Robotersteuerung_HIL
-        pico_stdlib)
+    pico_stdlib
+    freertos
+    hardware_gpio
+    hardware_pwm   # Can likely remove this now
+    hardware_clocks
+    hardware_i2c
+    hardware_pio   # Add hardware_pio
+    hardware_irq
+    hardware_sync
+    pico_i2c_slave
+    # FreeRTOS libraries if used directly (often handled by kernel include)
+)
+pico_add_extra_outputs(Robotersteuerung_HIL)
+pico_enable_stdio_usb(Robotersteuerung_HIL 1)
 
 # Add the standard include files to the build
 target_include_directories(Robotersteuerung_HIL PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
-
-pico_add_extra_outputs(Robotersteuerung_HIL)
-
