@@ -17,7 +17,7 @@ download the executable.-->
 			<SHEETS>1 of 1</SHEETS>
 			<SHOWS>1</SHOWS>
 			<DATE></DATE>
-			<GRID spacing='50.00000' snap='0'/>
+			<GRID spacing='25.00000' snap='0'/>
 		</DETAILS>
 		<FONT id='0'>
 			<HEIGHT>-13</HEIGHT>
@@ -47,6 +47,11 @@ download the executable.-->
 		<STYLE id='6'>
 			<STYLE>2</STYLE>
 			<COLOR>000000</COLOR>
+			<THICKNESS>1</THICKNESS>
+		</STYLE>
+		<STYLE id='7'>
+			<STYLE>0</STYLE>
+			<COLOR>FF0080</COLOR>
 			<THICKNESS>1</THICKNESS>
 		</STYLE>
 		<FILL id='0'>
@@ -337,10 +342,10 @@ download the executable.-->
 			<HINT pin='25' net='35'/>
 			<HINT pin='26' net='17'/>
 			<HINT pin='27' net='9'/>
-			<HINT pin='3.3v' net='221'/>
-			<HINT pin='5v' net='224'/>
-			<HINT pin='DNC' net='228'/>
-			<HINT pin='Gnd' net='161'/>
+			<HINT pin='3.3v' net='302'/>
+			<HINT pin='5v' net='306'/>
+			<HINT pin='DNC' net='310'/>
+			<HINT pin='Gnd' net='311'/>
 		</SYMBOL>
 		<SYMBOL id='1' pos='282.00000,136.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='' show='0' pos='1.00000,-75.60000'/>
@@ -349,8 +354,8 @@ download the executable.-->
 			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='1' description='Package' value='GPIO 40 pin' show='0' pos='1.00000,-73.20000'/>
 			<FIELD type='1' description='Other' value='..' show='0' pos='1.00000,-70.80000'/>
-			<HINT pin='02' net='43'/>
-			<HINT pin='03' net='42'/>
+			<HINT pin='02' net='3'/>
+			<HINT pin='03' net='4'/>
 			<HINT pin='04' net='148'/>
 			<HINT pin='05' net='150'/>
 			<HINT pin='06' net='58'/>
@@ -375,15 +380,14 @@ download the executable.-->
 			<HINT pin='25' net='73'/>
 			<HINT pin='26' net='55'/>
 			<HINT pin='27' net='48'/>
-			<HINT pin='3.3v' net='230'/>
-			<HINT pin='5v' net='234'/>
-			<HINT pin='DNC' net='238'/>
-			<HINT pin='Gnd' net='239'/>
+			<HINT pin='3.3v' net='312'/>
+			<HINT pin='5v' net='316'/>
+			<HINT pin='DNC' net='320'/>
+			<HINT pin='Gnd' net='321'/>
 		</SYMBOL>
 		<TEXT pos='252.00000,52.00000' direction='3' font='0' color='000000'>Raspberry Pi Pico HIL Simulator</TEXT>
-		<TEXT pos='50.00000,50.00000' direction='3' font='0' color='000000'>Raspberry Pi Pico Steuerung</TEXT>
-		<TEXT pos='8.00000,190.00000' direction='3' font='0' color='FF8000'>I2CSDA = BLUE</TEXT>
-		<TEXT pos='8.00000,194.00000' direction='3' font='0' color='0000FF'>I2CSCL = RED</TEXT>
+		<TEXT pos='38.50000,50.50000' direction='3' font='0' color='000000'>Raspberry Pi Pico Steuerung</TEXT>
+		<TEXT pos='6.97077,196.08615' direction='3' font='0' color='FF0080'>BUSSYSTEM = PURPLE</TEXT>
 		<SYMBOL id='2' pos='156.00000,136.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='X-PLUS' show='1' pos='-3.00000,-12.00000'/>
@@ -397,7 +401,7 @@ download the executable.-->
 			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,7.60000'/>
 			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,10.00000'/>
 			<FIELD type='1' description='Cost' value='0.23' show='0' pos='1.00000,12.40000'/>
-			<HINT pin='1' net='163'/>
+			<HINT pin='1' net='6'/>
 			<HINT pin='2' net='160'/>
 			<HINT pin='3' net='162'/>
 			<HINT pin='4' net='161'/>
@@ -415,7 +419,7 @@ download the executable.-->
 			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,7.60000'/>
 			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,10.00000'/>
 			<FIELD type='1' description='Cost' value='0.23' show='0' pos='1.00000,12.40000'/>
-			<HINT pin='1' net='167'/>
+			<HINT pin='1' net='14'/>
 			<HINT pin='2' net='164'/>
 			<HINT pin='3' net='166'/>
 			<HINT pin='4' net='161'/>
@@ -433,10 +437,10 @@ download the executable.-->
 			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,7.60000'/>
 			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,10.00000'/>
 			<FIELD type='1' description='Cost' value='0.23' show='0' pos='1.00000,12.40000'/>
-			<HINT pin='1' net='171'/>
+			<HINT pin='1' net='19'/>
 			<HINT pin='2' net='168'/>
 			<HINT pin='3' net='170'/>
-			<HINT pin='4' net='169'/>
+			<HINT pin='4' net='161'/>
 		</SYMBOL>
 		<SYMBOL id='2' pos='156.00000,94.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
@@ -451,7 +455,7 @@ download the executable.-->
 			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,7.60000'/>
 			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,10.00000'/>
 			<FIELD type='1' description='Cost' value='0.23' show='0' pos='1.00000,12.40000'/>
-			<HINT pin='1' net='174'/>
+			<HINT pin='1' net='40'/>
 			<HINT pin='2' net='172'/>
 			<HINT pin='3' net='173'/>
 			<HINT pin='4' net='161'/>
@@ -469,7 +473,7 @@ download the executable.-->
 			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,7.60000'/>
 			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,10.00000'/>
 			<FIELD type='1' description='Cost' value='0.23' show='0' pos='1.00000,12.40000'/>
-			<HINT pin='1' net='177'/>
+			<HINT pin='1' net='21'/>
 			<HINT pin='2' net='175'/>
 			<HINT pin='3' net='176'/>
 			<HINT pin='4' net='161'/>
@@ -487,21 +491,20 @@ download the executable.-->
 			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,7.60000'/>
 			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,10.00000'/>
 			<FIELD type='1' description='Cost' value='0.23' show='0' pos='1.00000,12.40000'/>
-			<HINT pin='1' net='180'/>
+			<HINT pin='1' net='22'/>
 			<HINT pin='2' net='178'/>
 			<HINT pin='3' net='179'/>
 			<HINT pin='4' net='161'/>
 		</SYMBOL>
-		<WIRE style='2' a='42.00000,72.00000' b='14.00000,72.00000'/>
-		<WIRE style='2' a='14.00000,72.00000' b='12.00000,172.00000'/>
-		<WIRE style='2' a='12.00000,172.00000' b='172.00000,172.00000'/>
-		<TEXT pos='8.00000,186.00000' direction='3' font='0' color='000000'>GROUNDLINE = BLACK</TEXT>
-		<WIRE a='42.00000,92.00000' b='16.00000,92.00000'/>
-		<WIRE a='16.00000,92.00000' b='16.00000,164.00000'/>
-		<WIRE a='42.00000,100.00000' b='18.00000,100.00000'/>
-		<WIRE a='18.00000,100.00000' b='18.00000,160.00000'/>
-		<WIRE a='42.00000,120.00000' b='22.00000,120.00000'/>
-		<WIRE a='22.00000,120.00000' b='22.00000,154.00000'/>
+		<WIRE style='2' a='42.00000,72.00000' b='5.00000,72.00000'/>
+		<WIRE style='2' a='5.00000,72.00000' b='5.00000,178.00000'/>
+		<TEXT pos='6.97077,192.54769' direction='3' font='0' color='000000'>GROUNDLINE = BLACK</TEXT>
+		<WIRE a='42.00000,92.00000' b='31.00000,92.00000'/>
+		<WIRE a='31.00000,92.00000' b='31.00000,164.00000'/>
+		<WIRE a='42.00000,100.00000' b='34.50000,100.00000'/>
+		<WIRE a='34.50000,100.00000' b='34.50000,160.00000'/>
+		<WIRE a='42.00000,120.00000' b='37.50000,120.00000'/>
+		<WIRE a='37.50000,120.00000' b='37.50000,154.00000'/>
 		<WIRE a='66.00000,68.00000' b='80.72185,67.99528'/>
 		<WIRE a='80.72185,67.99528' b='80.73846,56.95385'/>
 		<WIRE a='136.00000,57.00000' b='80.73846,56.95385'/>
@@ -510,20 +513,87 @@ download the executable.-->
 		<WIRE a='66.00000,72.00000' b='114.19385,72.00000'/>
 		<WIRE a='114.19385,72.00000' b='114.19385,71.00000'/>
 		<WIRE a='114.19385,71.00000' b='136.00000,71.00000'/>
-		<WIRE a='136.00000,85.00000' b='103.88615,85.00000'/>
-		<WIRE a='103.88615,85.00000' b='103.88615,116.00000'/>
-		<WIRE a='103.88615,116.00000' b='66.00000,116.00000'/>
+		<WIRE a='136.00000,85.00000' b='93.88615,85.00000'/>
+		<WIRE a='93.88615,85.00000' b='93.88615,116.00000'/>
+		<WIRE a='93.88615,116.00000' b='66.00000,116.00000'/>
 		<WIRE a='136.00000,99.00000' b='136.00000,98.92552'/>
-		<WIRE a='136.00000,98.92552' b='109.27077,98.92552'/>
-		<WIRE a='109.27077,98.92552' b='109.27077,154.00000'/>
-		<WIRE a='109.27077,154.00000' b='22.00000,154.00000'/>
+		<WIRE a='136.00000,98.92552' b='99.27077,98.92552'/>
+		<WIRE a='99.27077,98.92552' b='99.27077,154.00000'/>
+		<WIRE a='99.27077,154.00000' b='37.50000,154.00000'/>
 		<WIRE a='136.00000,113.00000' b='135.90570,112.99799'/>
-		<WIRE a='135.90570,112.99799' b='118.77151,113.01685'/>
-		<WIRE a='118.77151,113.01685' b='118.80923,160.00000'/>
-		<WIRE a='118.80923,160.00000' b='18.00000,160.00000'/>
-		<WIRE a='136.00000,127.00000' b='136.00000,126.92552'/>
-		<WIRE a='136.00000,126.92552' b='123.88615,126.92552'/>
-		<WIRE a='123.88615,126.92552' b='123.88615,164.00000'/>
-		<WIRE a='123.88615,164.00000' b='16.00000,164.00000'/>
+		<WIRE a='135.90570,112.99799' b='107.77151,113.01685'/>
+		<WIRE a='107.77151,113.01685' b='107.80923,160.00000'/>
+		<WIRE a='107.80923,160.00000' b='34.50000,160.00000'/>
+		<WIRE a='136.00000,127.00000' b='136.00000,126.98926'/>
+		<WIRE a='136.00000,126.98926' b='117.76325,126.98926'/>
+		<WIRE a='117.76325,126.98926' b='117.76185,163.95856'/>
+		<WIRE a='117.76185,163.95856' b='31.00000,164.00000'/>
+		<WIRE style='2' a='5.00000,178.00000' b='172.42708,178.08287'/>
+		<WIRE style='2' a='172.41449,146.00000' b='172.40771,131.97548'/>
+		<WIRE style='2' a='156.00000,132.00000' b='155.97548,132.00000'/>
+		<WIRE style='2' a='172.40771,131.97548' b='172.40771,118.02452'/>
+		<WIRE style='2' a='172.40000,118.00000' b='156.00000,118.00000'/>
+		<JUNCTION pos='172.40000,118.00000'/>
+		<WIRE style='2' a='172.40000,104.16671' b='172.40000,104.00000'/>
+		<WIRE style='2' a='172.40771,118.02452' b='172.40000,118.00000'/>
+		<WIRE style='2' a='172.40000,104.00000' b='156.00000,104.00000'/>
+		<JUNCTION pos='172.40000,104.16671'/>
+		<WIRE style='2' a='172.40000,104.00000' b='172.40000,90.00000'/>
+		<JUNCTION pos='172.40000,104.00000'/>
+		<WIRE style='2' a='172.40000,104.16671' b='172.40000,104.00000'/>
+		<WIRE style='2' a='172.40000,118.00000' b='172.40000,104.16671'/>
+		<WIRE style='2' a='172.40000,90.00000' b='156.00000,90.00000'/>
+		<JUNCTION pos='172.40000,90.00000'/>
+		<WIRE style='2' a='172.40000,90.00000' b='172.40000,76.00000'/>
+		<WIRE style='2' a='172.40000,76.00000' b='156.00000,76.00000'/>
+		<JUNCTION pos='172.40000,76.00000'/>
+		<WIRE style='2' a='172.40000,76.00000' b='172.40000,62.00000'/>
+		<WIRE style='2' a='172.40000,62.00000' b='156.00000,62.00000'/>
+		<JUNCTION pos='156.00000,132.00000'/>
+		<WIRE style='2' a='172.40771,131.97548' b='156.00000,132.00000'/>
+		<JUNCTION pos='172.40771,131.97548'/>
+		<SYMBOL id='2' pos='156.00000,150.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
+			<FIELD type='0' description='Name' value='GRABBER BUTTON' show='1' pos='-5.00000,-12.00000'/>
+			<FIELD type='1' description='Package' value='TACTBUTT' show='0' pos='1.00000,-9.20000'/>
+			<FIELD type='1' description='Usage' value='..' show='0' pos='1.00000,-6.80000'/>
+			<FIELD type='1' description='Datasheet' value='..' show='0' pos='1.00000,-4.40000'/>
+			<FIELD type='1' description='Picture' value='..' show='0' pos='1.00000,-2.00000'/>
+			<FIELD type='1' description='Manufacturer' value='E-Switch' show='0' pos='1.00000,0.40000'/>
+			<FIELD type='1' description='Manufacturer Part' value='TL1105F160Q' show='0' pos='1.00000,2.80000'/>
+			<FIELD type='1' description='Digi-Key Part' value='EG1827-ND' show='0' pos='1.00000,5.20000'/>
+			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,7.60000'/>
+			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,10.00000'/>
+			<FIELD type='1' description='Cost' value='0.23' show='0' pos='1.00000,12.40000'/>
+			<HINT pin='1' net='8'/>
+			<HINT pin='2' net='260'/>
+			<HINT pin='3' net='261'/>
+			<HINT pin='4' net='161'/>
+		</SYMBOL>
+		<WIRE a='27.50000,168.50000' b='123.50000,168.50000'/>
+		<WIRE a='123.50000,168.50000' b='123.50000,141.00000'/>
+		<WIRE a='123.50000,141.00000' b='136.00000,141.00000'/>
+		<WIRE style='2' a='156.00000,146.00000' b='172.41449,146.00000'/>
+		<JUNCTION pos='172.41449,146.00000'/>
+		<WIRE style='2' a='172.42708,178.08287' b='172.41449,146.00000'/>
+		<WIRE a='42.00000,84.00000' b='27.50000,84.00000'/>
+		<WIRE a='27.50000,84.00000' b='27.50000,168.50000'/>
+		<TEXT pos='6.96462,189.03385' direction='3' font='0' color='FF0000'>CONNECTIONLINE = BLUE</TEXT>
+		<WIRE style='7' a='42.00000,60.00000' b='27.88465,60.00000'/>
+		<WIRE style='7' a='27.88465,60.00000' b='27.88465,38.41057'/>
+		<WIRE style='7' a='238.08000,38.41057' b='238.08465,38.41057'/>
+		<WIRE a='42.00000,76.00000' b='42.00000,76.01057'/>
+		<JUNCTION pos='238.08000,38.41057'/>
+		<WIRE style='7' a='238.08000,38.41057' b='238.08000,66.00000'/>
+		<WIRE style='7' a='27.88465,38.41057' b='238.08000,38.41057'/>
+		<WIRE style='7' a='238.08000,66.00000' b='258.00000,66.00000'/>
+		<WIRE style='7' a='258.00000,62.00000' b='258.00000,62.02671'/>
+		<WIRE style='7' a='258.00000,62.02671' b='241.46462,62.02671'/>
+		<WIRE style='7' a='241.46462,62.02671' b='241.31077,34.32323'/>
+		<WIRE style='7' a='241.31077,34.32323' b='23.45831,34.32323'/>
+		<WIRE style='7' a='23.45831,34.32323' b='23.61215,64.00000'/>
+		<WIRE style='7' a='23.61215,64.00000' b='42.00000,64.00000'/>
+		<LABEL pos='67.10894,34.30628' direction='3' font='0' color='FF0080' style='0'>I2CSDA</LABEL>
+		<LABEL pos='66.95510,38.48059' direction='3' font='0' color='FF0080' style='0'>I2CSCL</LABEL>
 	</TinyCAD>
 </TinyCADSheets>
