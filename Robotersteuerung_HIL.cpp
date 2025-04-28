@@ -90,3 +90,6 @@ int main()
 
     vTaskStartScheduler();
 }
+
+// TODO:
+// ADD SEMAPHORE MUTEX
