@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
-#include <iostream>
 
 int main()
 {
     float x, y, z;
-    bool grabber_open = false;
+    int grabber;
+    // Float for x, y and z movement and int for grabber (0 - closed, 1 - open)
+    scanf("x %f, y %f, z %f, grabber %d\n", &x, &y, &z, &grabber);
 
-    std::cout << "X: ";
+    printf("x: %f, y: %f, z: %f, grabber: %d\n", x, y, z, grabber);
 }
