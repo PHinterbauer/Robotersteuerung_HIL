@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(Robotersteuerung_HIL Robotersteuerung_HIL.c )
+add_executable(Robotersteuerung_HIL Robotersteuerung_HIL.cpp )
 
 pico_set_program_name(Robotersteuerung_HIL "Robotersteuerung_HIL")
 pico_set_program_version(Robotersteuerung_HIL "0.1")
