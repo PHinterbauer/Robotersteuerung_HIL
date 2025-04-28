@@ -17,7 +17,7 @@ download the executable.-->
 			<SHEETS>1 of 1</SHEETS>
 			<SHOWS>1</SHOWS>
 			<DATE></DATE>
-			<GRID spacing='50.00000' snap='0'/>
+			<GRID spacing='100.00000' snap='1'/>
 		</DETAILS>
 		<FONT id='0'>
 			<HEIGHT>-13</HEIGHT>
@@ -384,7 +384,7 @@ download the executable.-->
 		<TEXT pos='50.00000,50.00000' direction='3' font='0' color='000000'>Raspberry Pi Pico Steuerung</TEXT>
 		<TEXT pos='8.00000,190.00000' direction='3' font='0' color='FF8000'>I2CSDA = BLUE</TEXT>
 		<TEXT pos='8.00000,194.00000' direction='3' font='0' color='0000FF'>I2CSCL = RED</TEXT>
-		<SYMBOL id='2' pos='156.00000,136.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='2' pos='156.00000,64.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='X-PLUS' show='1' pos='-3.00000,-12.00000'/>
 			<FIELD type='1' description='Package' value='TACTBUTT' show='0' pos='1.00000,-9.20000'/>
@@ -402,7 +402,7 @@ download the executable.-->
 			<HINT pin='3' net='162'/>
 			<HINT pin='4' net='161'/>
 		</SYMBOL>
-		<SYMBOL id='2' pos='156.00000,122.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='2' pos='156.00000,78.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='X-MINUS' show='1' pos='-3.00000,-12.00000'/>
 			<FIELD type='1' description='Package' value='TACTBUTT' show='0' pos='1.00000,-9.20000'/>
@@ -420,7 +420,7 @@ download the executable.-->
 			<HINT pin='3' net='166'/>
 			<HINT pin='4' net='161'/>
 		</SYMBOL>
-		<SYMBOL id='2' pos='156.00000,108.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='2' pos='156.00000,106.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='Y-MINUS' show='1' pos='-3.00000,-12.00000'/>
 			<FIELD type='1' description='Package' value='TACTBUTT' show='0' pos='1.00000,-9.20000'/>
@@ -438,7 +438,7 @@ download the executable.-->
 			<HINT pin='3' net='170'/>
 			<HINT pin='4' net='169'/>
 		</SYMBOL>
-		<SYMBOL id='2' pos='156.00000,94.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='2' pos='156.00000,92.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='Y-PLUS' show='1' pos='-3.00000,-12.00000'/>
 			<FIELD type='1' description='Package' value='TACTBUTT' show='0' pos='1.00000,-9.20000'/>
@@ -456,7 +456,7 @@ download the executable.-->
 			<HINT pin='3' net='173'/>
 			<HINT pin='4' net='161'/>
 		</SYMBOL>
-		<SYMBOL id='2' pos='156.00000,80.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='2' pos='156.00000,134.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='Z-MINUS' show='1' pos='-3.00000,-12.00000'/>
 			<FIELD type='1' description='Package' value='TACTBUTT' show='0' pos='1.00000,-9.20000'/>
@@ -474,7 +474,7 @@ download the executable.-->
 			<HINT pin='3' net='176'/>
 			<HINT pin='4' net='161'/>
 		</SYMBOL>
-		<SYMBOL id='2' pos='156.00000,66.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='2' pos='156.00000,120.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='Z-PLUS' show='1' pos='-3.00000,-12.00000'/>
 			<FIELD type='1' description='Package' value='TACTBUTT' show='0' pos='1.00000,-9.20000'/>
@@ -493,37 +493,34 @@ download the executable.-->
 			<HINT pin='4' net='161'/>
 		</SYMBOL>
 		<WIRE style='2' a='42.00000,72.00000' b='14.00000,72.00000'/>
-		<WIRE style='2' a='14.00000,72.00000' b='12.00000,172.00000'/>
-		<WIRE style='2' a='12.00000,172.00000' b='172.00000,172.00000'/>
+		<WIRE style='2' a='14.00000,72.00000' b='14.00000,166.00000'/>
+		<WIRE style='2' a='156.00000,130.00000' b='174.00000,130.00000'/>
+		<WIRE style='2' a='14.00000,166.00000' b='174.00000,166.00000'/>
+		<WIRE style='2' a='156.00000,116.00000' b='174.00000,116.00000'/>
+		<WIRE style='2' a='174.00000,130.00000' b='174.00000,166.00000'/>
+		<JUNCTION pos='174.00000,130.00000'/>
+		<WIRE style='2' a='156.00000,100.00000' b='174.00000,100.00000'/>
+		<WIRE style='2' a='174.00000,116.00000' b='174.00000,130.00000'/>
+		<WIRE style='2' a='156.00000,88.00000' b='174.00000,88.00000'/>
+		<WIRE style='2' a='174.00000,100.00000' b='174.00000,116.00000'/>
+		<WIRE style='2' a='156.00000,74.00000' b='174.00000,74.00000'/>
+		<WIRE style='2' a='174.00000,88.00000' b='174.00000,100.00000'/>
+		<JUNCTION pos='174.00000,88.00000'/>
+		<JUNCTION pos='174.00000,100.00000'/>
+		<JUNCTION pos='174.00000,116.00000'/>
 		<TEXT pos='8.00000,186.00000' direction='3' font='0' color='000000'>GROUNDLINE = BLACK</TEXT>
-		<WIRE a='42.00000,92.00000' b='16.00000,92.00000'/>
-		<WIRE a='16.00000,92.00000' b='16.00000,164.00000'/>
-		<WIRE a='42.00000,100.00000' b='18.00000,100.00000'/>
-		<WIRE a='18.00000,100.00000' b='18.00000,160.00000'/>
-		<WIRE a='42.00000,120.00000' b='22.00000,120.00000'/>
-		<WIRE a='22.00000,120.00000' b='22.00000,154.00000'/>
-		<WIRE a='66.00000,68.00000' b='80.72185,67.99528'/>
-		<WIRE a='80.72185,67.99528' b='80.73846,56.95385'/>
-		<WIRE a='136.00000,57.00000' b='80.73846,56.95385'/>
-		<JUNCTION pos='136.00000,57.00000'/>
-		<WIRE a='136.20000,57.00000' b='136.00000,57.00000'/>
-		<WIRE a='66.00000,72.00000' b='114.19385,72.00000'/>
-		<WIRE a='114.19385,72.00000' b='114.19385,71.00000'/>
-		<WIRE a='114.19385,71.00000' b='136.00000,71.00000'/>
-		<WIRE a='136.00000,85.00000' b='103.88615,85.00000'/>
-		<WIRE a='103.88615,85.00000' b='103.88615,116.00000'/>
-		<WIRE a='103.88615,116.00000' b='66.00000,116.00000'/>
-		<WIRE a='136.00000,99.00000' b='136.00000,98.92552'/>
-		<WIRE a='136.00000,98.92552' b='109.27077,98.92552'/>
-		<WIRE a='109.27077,98.92552' b='109.27077,154.00000'/>
-		<WIRE a='109.27077,154.00000' b='22.00000,154.00000'/>
-		<WIRE a='136.00000,113.00000' b='135.90570,112.99799'/>
-		<WIRE a='135.90570,112.99799' b='118.77151,113.01685'/>
-		<WIRE a='118.77151,113.01685' b='118.80923,160.00000'/>
-		<WIRE a='118.80923,160.00000' b='18.00000,160.00000'/>
-		<WIRE a='136.00000,127.00000' b='136.00000,126.92552'/>
-		<WIRE a='136.00000,126.92552' b='123.88615,126.92552'/>
-		<WIRE a='123.88615,126.92552' b='123.88615,164.00000'/>
-		<WIRE a='123.88615,164.00000' b='16.00000,164.00000'/>
+		<WIRE style='2' a='156.00000,60.00000' b='174.00000,60.00000'/>
+		<WIRE style='2' a='174.00000,74.00000' b='174.00000,88.00000'/>
+		<JUNCTION pos='174.00000,74.00000'/>
+		<WIRE style='2' a='174.00000,60.00000' b='174.00000,74.00000'/>
+		<WIRE a='42.00000,92.00000' b='30.00000,92.00000'/>
+		<WIRE a='30.00000,92.00000' b='30.00000,164.00000'/>
+		<WIRE a='30.00000,164.00000' b='72.00000,164.00000'/>
+		<WIRE a='72.00000,164.00000' b='131.00000,55.00000'/>
+		<WIRE a='136.00000,55.00000' b='131.00000,55.00000'/>
+		<WIRE a='42.00000,100.00000' b='36.00000,100.00000'/>
+		<WIRE a='36.00000,100.00000' b='36.00000,160.00000'/>
+		<WIRE a='36.00000,160.00000' b='66.00000,160.00000'/>
+		<WIRE a='66.00000,160.00000' b='136.00000,69.00000'/>
 	</TinyCAD>
 </TinyCADSheets>
