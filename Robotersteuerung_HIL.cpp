@@ -65,24 +65,24 @@ void get_user_input(void* nothing)
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
+}
 
-    void execute_commands(void* nothing)
+void execute_commands(void* nothing)
+{
+    while (1)
     {
-        while (1)
+        if (xSemaphoreTake(mutex, portMAX_DELAY))
         {
-            if (xSemaphoreTake(mutex, portMAX_DELAY))
+            if (run == 1)
             {
-                if (run == 1)
+                for (int i = 0; i < command_count; i++)
                 {
-                    for (int i = 0; i < command_count; i++)
-                    {
-                        printf("Executing command %d: x = %f, y = %f, z = %f, grabber = %d\n", i + 1, x_commands[i], y_commands[i], z_commands[i], grabber_commands[i]);
-                    }
-                    run = 0; // Reset run flag after executing commands
-                    command_count = 0; // Clear command buffer after execution
+                    printf("Executing command %d: x = %f, y = %f, z = %f, grabber = %d\n", i + 1, x_commands[i], y_commands[i], z_commands[i], grabber_commands[i]);
                 }
-                xSemaphoreGive(mutex);
+                run = 0; // Reset run flag after executing commands
+                command_count = 0; // Clear command buffer after execution
             }
+            xSemaphoreGive(mutex);
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
