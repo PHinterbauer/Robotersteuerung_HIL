@@ -48,23 +48,23 @@ int y_pos = 0;
 int z_pos = 0;
 int grabber_status = 0; // 0 = closed, 1 = open
 
-int x_axis_state = IDLE;
-int y_axis_state = IDLE;
-int z_axis_state = IDLE;
-int grabber_state = IDLE;
-
 enum {
-    IDLE,
+    IDLE_AXIS,
     INCREASE,
     DECREASE,
     SLOW
 };
 
 enum {
-    IDLE,
+    IDLE_GRABBER,
     OPEN,
     CLOSE
 };
+
+int x_axis_state = IDLE_AXIS;
+int y_axis_state = IDLE_AXIS;
+int z_axis_state = IDLE_AXIS;
+int grabber_state = IDLE_GRABBER;
 
 void set_pwm(int gpio_pin, int duty_cycle) 
 {
@@ -121,7 +121,7 @@ void grabber_controller(void* nothing)
     {
         switch (grabber_state)
         {
-           case IDLE:
+           case IDLE_GRABBER:
                 if (grabber_status == 0 && gpio_get(Button_Grabber) == 1)
                 {
                     grabber_state = OPEN;
@@ -135,13 +135,13 @@ void grabber_controller(void* nothing)
             case OPEN:
                 gpio_put(GPIO_Grabber_Open_Out, 1);
                 gpio_put(GPIO_Grabber_Close_Out, 0);
-                grabber_state = IDLE;
+                grabber_state = IDLE_GRABBER;
             break;
 
             case CLOSE:
                 gpio_put(GPIO_Grabber_Open_Out, 0);
                 gpio_put(GPIO_Grabber_Close_Out, 1);
-                grabber_state = IDLE;
+                grabber_state = IDLE_GRABBER;
             break;
         }
     }
@@ -154,7 +154,7 @@ void x_axis_controller(void* nothing)
     {
         switch (x_axis_state)
         {
-            case IDLE:
+            case IDLE_AXIS:
                 if (gpio_get(Button_X_Inc) == 1)
                 {
                     x_axis_state = INCREASE;
@@ -199,7 +199,7 @@ void x_axis_controller(void* nothing)
 
             case SLOW:
                 set_pwm(PWM_X_Out, 0);
-                x_axis_state = IDLE;
+                x_axis_state = IDLE_AXIS;
             break;
         }
     }
@@ -212,7 +212,7 @@ void y_axis_controller(void* nothing)
     {
         switch (y_axis_state)
         {
-            case IDLE:
+            case IDLE_AXIS:
                 if (gpio_get(Button_Y_Inc) == 1)
                 {
                     y_axis_state = INCREASE;
@@ -257,7 +257,7 @@ void y_axis_controller(void* nothing)
 
             case SLOW:
                 set_pwm(PWM_Y_Out, 0);
-                y_axis_state = IDLE;
+                y_axis_state = IDLE_AXIS;
             break;
         }
     }
@@ -270,7 +270,7 @@ void z_axis_controller(void* nothing)
     {
         switch (z_axis_state)
         {
-            case IDLE:
+            case IDLE_AXIS:
                 if (gpio_get(Button_Z_Inc) == 1)
                 {
                     z_axis_state = INCREASE;
@@ -315,7 +315,7 @@ void z_axis_controller(void* nothing)
 
             case SLOW:
                 set_pwm(PWM_Z_Out, 0);
-                z_axis_state = IDLE;
+                z_axis_state = IDLE_AXIS;
             break;
         }
     }
