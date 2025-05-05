@@ -11,7 +11,7 @@ download the executable.-->
 			<GUIDES horiz='7' vert='5'/>
 			<TITLE>Circuit Diagram: Control and Sim Pico</TITLE>
 			<AUTHOR>Houman, Gvozdenac</AUTHOR>
-			<REVISION>1.0</REVISION>
+			<REVISION>1.1</REVISION>
 			<DOCNUMBER></DOCNUMBER>
 			<ORGANISATION>TGM-HWI</ORGANISATION>
 			<SHEETS>1 of 1</SHEETS>
@@ -44,17 +44,17 @@ download the executable.-->
 			<COLOR>000000</COLOR>
 			<THICKNESS>1</THICKNESS>
 		</STYLE>
-		<STYLE id='3'>
+		<STYLE id='2'>
 			<STYLE>0</STYLE>
 			<COLOR>FF0080</COLOR>
 			<THICKNESS>1</THICKNESS>
 		</STYLE>
-		<STYLE id='4'>
+		<STYLE id='5'>
 			<STYLE>0</STYLE>
 			<COLOR>000000</COLOR>
 			<THICKNESS>1</THICKNESS>
 		</STYLE>
-		<STYLE id='5'>
+		<STYLE id='6'>
 			<STYLE>2</STYLE>
 			<COLOR>000000</COLOR>
 			<THICKNESS>1</THICKNESS>
@@ -101,85 +101,85 @@ download the executable.-->
 			<REF_POINT power='1' part='0' pos='43.94142,93.58291'/>
 			<TinyCAD>
 				<PIN pos='19.94142,31.58291' which='0' elec='0' direction='3' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>9</PIN>
-				<RECTANGLE a='26.00000,30.00000' b='29.00000,33.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,30.00000' b='29.00000,33.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,27.58291' which='0' elec='0' direction='3' part='0' number='04' show='3' length='30' number_pos='0' centre_name='0'>7</PIN>
-				<RECTANGLE a='26.00000,26.00000' b='29.00000,29.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,26.00000' b='29.00000,29.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,23.58291' which='0' elec='0' direction='3' part='0' number='03' show='3' length='30' number_pos='0' centre_name='0'>5</PIN>
-				<RECTANGLE a='26.00000,22.00000' b='29.00000,25.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,22.00000' b='29.00000,25.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,19.58291' which='0' elec='0' direction='3' part='0' number='02' show='3' length='30' number_pos='0' centre_name='0'>3</PIN>
-				<RECTANGLE a='26.00000,18.00000' b='29.00000,21.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,18.00000' b='29.00000,21.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,15.58291' which='0' elec='0' direction='3' part='0' number='3.3v' show='3' length='30' number_pos='0' centre_name='0'>1</PIN>
-				<RECTANGLE a='26.00000,14.00000' b='29.00000,17.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,14.00000' b='29.00000,17.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,51.58291' which='0' elec='0' direction='3' part='0' number='10' show='3' length='30' number_pos='0' centre_name='0'>19</PIN>
-				<RECTANGLE a='26.00000,50.00000' b='29.00000,53.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,50.00000' b='29.00000,53.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,47.58291' which='0' elec='0' direction='3' part='0' number='3.3v' show='3' length='30' number_pos='0' centre_name='0'>17</PIN>
-				<RECTANGLE a='26.00000,46.00000' b='29.00000,49.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,46.00000' b='29.00000,49.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,43.58291' which='0' elec='0' direction='3' part='0' number='22' show='3' length='30' number_pos='0' centre_name='0'>15</PIN>
-				<RECTANGLE a='26.00000,42.00000' b='29.00000,45.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,42.00000' b='29.00000,45.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,39.58291' which='0' elec='0' direction='3' part='0' number='27' show='3' length='30' number_pos='0' centre_name='0'>13</PIN>
-				<RECTANGLE a='26.00000,38.00000' b='29.00000,41.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,38.00000' b='29.00000,41.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,35.58291' which='0' elec='0' direction='3' part='0' number='17' show='3' length='30' number_pos='0' centre_name='0'>11</PIN>
-				<RECTANGLE a='26.00000,34.00000' b='29.00000,37.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,34.00000' b='29.00000,37.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,71.58291' which='0' elec='0' direction='3' part='0' number='05' show='3' length='30' number_pos='0' centre_name='0'>29</PIN>
-				<RECTANGLE a='26.00000,70.00000' b='29.00000,73.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,70.00000' b='29.00000,73.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,67.58291' which='0' elec='0' direction='3' part='0' number='DNC' show='3' length='30' number_pos='0' centre_name='0'>27</PIN>
-				<RECTANGLE a='26.00000,66.00000' b='29.00000,69.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,66.00000' b='29.00000,69.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,63.58291' which='0' elec='0' direction='3' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>25</PIN>
-				<RECTANGLE a='26.00000,62.00000' b='29.00000,65.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,62.00000' b='29.00000,65.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,59.58291' which='0' elec='0' direction='3' part='0' number='11' show='3' length='30' number_pos='0' centre_name='0'>23</PIN>
-				<RECTANGLE a='26.00000,58.00000' b='29.00000,61.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,58.00000' b='29.00000,61.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,55.58291' which='0' elec='0' direction='3' part='0' number='09' show='3' length='30' number_pos='0' centre_name='0'>21</PIN>
-				<RECTANGLE a='26.00000,54.00000' b='29.00000,57.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,54.00000' b='29.00000,57.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,91.58291' which='0' elec='0' direction='3' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>39</PIN>
-				<RECTANGLE a='26.00000,90.00000' b='29.00000,93.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,90.00000' b='29.00000,93.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,87.58291' which='0' elec='0' direction='3' part='0' number='26' show='3' length='30' number_pos='0' centre_name='0'>37</PIN>
-				<RECTANGLE a='26.00000,86.00000' b='29.00000,89.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,86.00000' b='29.00000,89.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,83.58291' which='0' elec='0' direction='3' part='0' number='19' show='3' length='30' number_pos='0' centre_name='0'>35</PIN>
-				<RECTANGLE a='26.00000,82.00000' b='29.00000,85.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,82.00000' b='29.00000,85.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,79.58291' which='0' elec='0' direction='3' part='0' number='13' show='3' length='30' number_pos='0' centre_name='0'>33</PIN>
-				<RECTANGLE a='26.00000,78.00000' b='29.00000,81.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,78.00000' b='29.00000,81.00000' style='5' fill='0'/>
 				<PIN pos='19.94142,75.58291' which='0' elec='0' direction='3' part='0' number='06' show='3' length='30' number_pos='0' centre_name='0'>31</PIN>
-				<RECTANGLE a='26.00000,74.00000' b='29.00000,77.00000' style='4' fill='0'/>
+				<RECTANGLE a='26.00000,74.00000' b='29.00000,77.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,31.58291' which='0' elec='0' direction='2' part='0' number='15' show='3' length='30' number_pos='0' centre_name='0'>10</PIN>
-				<RECTANGLE a='35.00000,30.00000' b='38.00000,33.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,30.00000' b='38.00000,33.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,27.58291' which='0' elec='0' direction='2' part='0' number='14' show='3' length='30' number_pos='0' centre_name='0'>8</PIN>
-				<RECTANGLE a='35.00000,26.00000' b='38.00000,29.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,26.00000' b='38.00000,29.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,23.58291' which='0' elec='0' direction='2' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>6</PIN>
-				<RECTANGLE a='35.00000,22.00000' b='38.00000,25.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,22.00000' b='38.00000,25.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,19.58291' which='0' elec='0' direction='2' part='0' number='5v' show='3' length='30' number_pos='0' centre_name='0'>4</PIN>
-				<RECTANGLE a='35.00000,18.00000' b='38.00000,21.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,18.00000' b='38.00000,21.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,15.58291' which='0' elec='0' direction='2' part='0' number='5v' show='3' length='30' number_pos='0' centre_name='0'>2</PIN>
-				<RECTANGLE a='35.00000,14.00000' b='38.00000,17.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,14.00000' b='38.00000,17.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,51.58291' which='0' elec='0' direction='2' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>20</PIN>
-				<RECTANGLE a='35.00000,50.00000' b='38.00000,53.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,50.00000' b='38.00000,53.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,47.58291' which='0' elec='0' direction='2' part='0' number='24' show='3' length='30' number_pos='0' centre_name='0'>18</PIN>
-				<RECTANGLE a='35.00000,46.00000' b='38.00000,49.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,46.00000' b='38.00000,49.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,43.58291' which='0' elec='0' direction='2' part='0' number='23' show='3' length='30' number_pos='0' centre_name='0'>16</PIN>
-				<RECTANGLE a='35.00000,42.00000' b='38.00000,45.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,42.00000' b='38.00000,45.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,39.58291' which='0' elec='0' direction='2' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>14</PIN>
-				<RECTANGLE a='35.00000,38.00000' b='38.00000,41.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,38.00000' b='38.00000,41.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,35.58291' which='0' elec='0' direction='2' part='0' number='18' show='3' length='30' number_pos='0' centre_name='0'>12</PIN>
-				<RECTANGLE a='35.00000,34.00000' b='38.00000,37.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,34.00000' b='38.00000,37.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,71.58291' which='0' elec='0' direction='2' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>30</PIN>
-				<RECTANGLE a='35.00000,70.00000' b='38.00000,73.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,70.00000' b='38.00000,73.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,67.58291' which='0' elec='0' direction='2' part='0' number='DNC' show='3' length='30' number_pos='0' centre_name='0'>28</PIN>
-				<RECTANGLE a='35.00000,66.00000' b='38.00000,69.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,66.00000' b='38.00000,69.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,63.58291' which='0' elec='0' direction='2' part='0' number='07' show='3' length='30' number_pos='0' centre_name='0'>26</PIN>
-				<RECTANGLE a='35.00000,62.00000' b='38.00000,65.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,62.00000' b='38.00000,65.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,59.58291' which='0' elec='0' direction='2' part='0' number='08' show='3' length='30' number_pos='0' centre_name='0'>24</PIN>
-				<RECTANGLE a='35.00000,58.00000' b='38.00000,61.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,58.00000' b='38.00000,61.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,55.58291' which='0' elec='0' direction='2' part='0' number='25' show='3' length='30' number_pos='0' centre_name='0'>22</PIN>
-				<RECTANGLE a='35.00000,54.00000' b='38.00000,57.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,54.00000' b='38.00000,57.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,91.58291' which='0' elec='0' direction='2' part='0' number='21' show='3' length='30' number_pos='0' centre_name='0'>40</PIN>
-				<RECTANGLE a='35.00000,90.00000' b='38.00000,93.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,90.00000' b='38.00000,93.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,87.58291' which='0' elec='0' direction='2' part='0' number='20' show='3' length='30' number_pos='0' centre_name='0'>38</PIN>
-				<RECTANGLE a='35.00000,86.00000' b='38.00000,89.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,86.00000' b='38.00000,89.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,83.58291' which='0' elec='0' direction='2' part='0' number='16' show='3' length='30' number_pos='0' centre_name='0'>36</PIN>
-				<RECTANGLE a='35.00000,82.00000' b='38.00000,85.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,82.00000' b='38.00000,85.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,79.58291' which='0' elec='0' direction='2' part='0' number='Gnd' show='3' length='30' number_pos='0' centre_name='0'>34</PIN>
-				<RECTANGLE a='35.00000,78.00000' b='38.00000,81.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,78.00000' b='38.00000,81.00000' style='5' fill='0'/>
 				<PIN pos='43.94142,75.58291' which='0' elec='0' direction='2' part='0' number='12' show='3' length='30' number_pos='0' centre_name='0'>32</PIN>
-				<RECTANGLE a='35.00000,74.00000' b='38.00000,77.00000' style='4' fill='0'/>
+				<RECTANGLE a='35.00000,74.00000' b='38.00000,77.00000' style='5' fill='0'/>
 			</TinyCAD>
 		</SYMBOLDEF>
 		<SYMBOLDEF id='2'>
@@ -262,37 +262,37 @@ download the executable.-->
 			<TinyCAD>
 				<PIN pos='72.00000,44.00000' which='0' elec='4' direction='3' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
 				<PIN pos='92.00000,44.00000' which='0' elec='4' direction='2' part='0' number='4' show='0' length='30' number_pos='0' centre_name='0'></PIN>
-				<POLYGON pos='78.00000,42.00000' style='4' fill='0' polygon='0'>
+				<POLYGON pos='78.00000,42.00000' style='5' fill='0' polygon='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='8.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='82.00000,40.00000' style='4' fill='0' polygon='0'>
+				<POLYGON pos='82.00000,40.00000' style='5' fill='0' polygon='0'>
 					<POINT pos='0.00000,2.00000' arc='0'/>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='81.00000,40.00000' style='4' fill='0' polygon='0'>
+				<POLYGON pos='81.00000,40.00000' style='5' fill='0' polygon='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='2.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<ELLIPSE a='80.00000,43.00000' b='78.00000,45.00000' style='4' fill='0'/>
-				<ELLIPSE a='84.00000,43.00000' b='86.00000,45.00000' style='4' fill='0'/>
+				<ELLIPSE a='80.00000,43.00000' b='78.00000,45.00000' style='5' fill='0'/>
+				<ELLIPSE a='84.00000,43.00000' b='86.00000,45.00000' style='5' fill='0'/>
 				<PIN pos='92.00000,39.00000' which='0' elec='4' direction='2' part='0' number='3' show='0' length='30' number_pos='0' centre_name='0'></PIN>
-				<ELLIPSE a='80.00000,38.00000' b='78.00000,40.00000' style='4' fill='0'/>
-				<ELLIPSE a='84.00000,38.00000' b='86.00000,40.00000' style='4' fill='0'/>
+				<ELLIPSE a='80.00000,38.00000' b='78.00000,40.00000' style='5' fill='0'/>
+				<ELLIPSE a='84.00000,38.00000' b='86.00000,40.00000' style='5' fill='0'/>
 				<PIN pos='72.00000,39.00000' which='0' elec='0' direction='3' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
-				<POLYGON pos='78.00000,37.00000' style='4' fill='0' polygon='0'>
+				<POLYGON pos='78.00000,37.00000' style='5' fill='0' polygon='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='8.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='82.00000,35.00000' style='4' fill='0' polygon='0'>
+				<POLYGON pos='82.00000,35.00000' style='5' fill='0' polygon='0'>
 					<POINT pos='0.00000,2.00000' arc='0'/>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='81.00000,35.00000' style='4' fill='0' polygon='0'>
+				<POLYGON pos='81.00000,35.00000' style='5' fill='0' polygon='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='2.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='82.00000,33.00000' style='5' fill='0' polygon='0'>
+				<POLYGON pos='82.00000,33.00000' style='6' fill='0' polygon='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,14.00000' arc='0'/>
 				</POLYGON>
@@ -353,12 +353,13 @@ download the executable.-->
 			<HINT pin='Gnd' net='311'/>
 		</SYMBOL>
 		<SYMBOL id='1' pos='244.65385,136.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
-			<FIELD type='1' description='Ref' value='' show='0' pos='1.00000,-75.60000'/>
-			<FIELD type='0' description='Name' value='GPIO 40 pin' show='1' pos='1.00000,-78.00000'/>
+			<FIELD type='1' description='Ref' value='' show='0' pos='1.00000,-75.10000'/>
+			<FIELD type='0' description='Name' value='GPIO 40 pin' show='1' pos='1.00000,-77.50000'/>
 			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
-			<FIELD type='1' description='Package' value='GPIO 40 pin' show='0' pos='1.00000,-73.20000'/>
-			<FIELD type='1' description='Other' value='..' show='0' pos='1.00000,-70.80000'/>
+			<FIELD type='1' description='Package' value='GPIO 40 pin' show='0' pos='1.00000,-72.70000'/>
+			<FIELD type='1' description='Other' value='..' show='0' pos='1.00000,-70.30000'/>
+			<FIELD type='3' description='Other' value='..' show='1' pos='0.00000,2.40000'/>
 			<HINT pin='02' net='3'/>
 			<HINT pin='03' net='4'/>
 			<HINT pin='04' net='148'/>
@@ -533,20 +534,15 @@ download the executable.-->
 		<WIRE a='136.00000,126.98926' b='117.76325,126.98926'/>
 		<WIRE a='117.76325,126.98926' b='117.76185,163.95856'/>
 		<WIRE a='117.76185,163.95856' b='31.00000,164.00000'/>
-		<WIRE style='0' a='18.50000,178.00000' b='172.42708,178.08287'/>
-		<WIRE style='0' a='172.41449,146.00000' b='172.40771,131.97548'/>
+		<WIRE style='0' a='18.50000,178.00000' b='172.50000,178.00000'/>
+		<WIRE style='0' a='172.50000,146.00000' b='172.50000,132.00000'/>
 		<WIRE style='0' a='156.00000,132.00000' b='155.97548,132.00000'/>
-		<WIRE style='0' a='172.40771,131.97548' b='172.40771,118.02452'/>
-		<WIRE style='0' a='172.40000,118.00000' b='156.00000,118.00000'/>
-		<JUNCTION pos='172.40000,118.00000'/>
-		<WIRE style='0' a='172.40000,104.16671' b='172.40000,104.00000'/>
-		<WIRE style='0' a='172.40771,118.02452' b='172.40000,118.00000'/>
+		<WIRE style='0' a='172.50000,132.00000' b='172.50000,118.00000'/>
+		<WIRE style='0' a='172.50000,118.00000' b='156.00000,118.00000'/>
+		<WIRE style='0' a='172.50000,104.00000' b='172.40000,104.00000'/>
 		<WIRE style='0' a='172.40000,104.00000' b='156.00000,104.00000'/>
-		<JUNCTION pos='172.40000,104.16671'/>
 		<WIRE style='0' a='172.40000,104.00000' b='172.40000,90.00000'/>
-		<JUNCTION pos='172.40000,104.00000'/>
-		<WIRE style='0' a='172.40000,104.16671' b='172.40000,104.00000'/>
-		<WIRE style='0' a='172.40000,118.00000' b='172.40000,104.16671'/>
+		<WIRE style='0' a='172.50000,118.00000' b='172.50000,104.00000'/>
 		<WIRE style='0' a='172.40000,90.00000' b='156.00000,90.00000'/>
 		<JUNCTION pos='172.40000,90.00000'/>
 		<WIRE style='0' a='172.40000,90.00000' b='172.40000,76.00000'/>
@@ -555,8 +551,7 @@ download the executable.-->
 		<WIRE style='0' a='172.40000,76.00000' b='172.40000,62.00000'/>
 		<WIRE style='0' a='172.40000,62.00000' b='156.00000,62.00000'/>
 		<JUNCTION pos='156.00000,132.00000'/>
-		<WIRE style='0' a='172.40771,131.97548' b='156.00000,132.00000'/>
-		<JUNCTION pos='172.40771,131.97548'/>
+		<WIRE style='0' a='172.50000,132.00000' b='156.00000,132.00000'/>
 		<SYMBOL id='2' pos='156.00000,150.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,-11.60000'/>
 			<FIELD type='0' description='Name' value='GRABBER BUTTON' show='1' pos='-5.00000,-12.00000'/>
@@ -578,27 +573,30 @@ download the executable.-->
 		<WIRE a='27.50000,168.50000' b='123.50000,168.50000'/>
 		<WIRE a='123.50000,168.50000' b='123.50000,141.00000'/>
 		<WIRE a='123.50000,141.00000' b='136.00000,141.00000'/>
-		<WIRE style='0' a='156.00000,146.00000' b='172.41449,146.00000'/>
-		<JUNCTION pos='172.41449,146.00000'/>
-		<WIRE style='0' a='172.42708,178.08287' b='172.41449,146.00000'/>
+		<WIRE style='0' a='156.00000,146.00000' b='172.50000,146.00000'/>
+		<WIRE style='0' a='172.50000,178.00000' b='172.50000,146.00000'/>
 		<WIRE a='42.00000,84.00000' b='27.50000,84.00000'/>
 		<WIRE a='27.50000,84.00000' b='27.50000,168.50000'/>
 		<TEXT pos='6.96462,189.03385' direction='3' font='3' color='FF0000'>CONNECTIONLINE = BLUE</TEXT>
-		<WIRE style='3' a='42.00000,60.00000' b='27.88465,60.00000'/>
-		<WIRE style='3' a='27.88465,60.00000' b='27.88465,38.41057'/>
-		<WIRE style='3' a='198.58000,38.41057' b='198.58465,38.41057'/>
+		<WIRE style='2' a='42.00000,60.00000' b='27.88465,60.00000'/>
+		<WIRE style='2' a='27.88465,60.00000' b='27.88465,38.41057'/>
+		<WIRE style='2' a='198.58000,38.41057' b='198.58465,38.41057'/>
 		<WIRE a='42.00000,76.00000' b='42.00000,76.01057'/>
-		<WIRE style='3' a='198.58000,38.41057' b='198.58000,66.00000'/>
-		<WIRE style='3' a='27.88465,38.41057' b='198.58000,38.41057'/>
-		<WIRE style='3' a='198.58000,66.00000' b='220.65385,66.00000'/>
-		<WIRE style='3' a='220.65385,62.00000' b='220.65385,62.02671'/>
-		<WIRE style='3' a='220.65385,62.02671' b='201.50000,62.00000'/>
-		<WIRE style='3' a='201.50000,62.00000' b='201.50000,34.50000'/>
-		<WIRE style='3' a='201.50000,34.50000' b='24.50000,34.50000'/>
-		<WIRE style='3' a='24.50000,34.50000' b='24.50000,64.00000'/>
-		<WIRE style='3' a='24.50000,64.00000' b='42.00000,64.00000'/>
+		<WIRE style='2' a='198.58000,38.41057' b='198.58000,66.00000'/>
+		<WIRE style='2' a='27.88465,38.41057' b='198.58000,38.41057'/>
+		<WIRE style='2' a='198.58000,66.00000' b='220.65385,66.00000'/>
+		<WIRE style='2' a='220.65385,62.00000' b='220.65385,62.02671'/>
+		<WIRE style='2' a='220.65385,62.02671' b='201.50000,62.00000'/>
+		<WIRE style='2' a='201.50000,62.00000' b='201.50000,34.50000'/>
+		<WIRE style='2' a='201.50000,34.50000' b='24.50000,34.50000'/>
+		<WIRE style='2' a='24.50000,34.50000' b='24.50000,64.00000'/>
+		<WIRE style='2' a='24.50000,64.00000' b='42.00000,64.00000'/>
 		<LABEL pos='100.95722,34.26013' direction='3' font='3' color='FF0080' style='0'>I2CSDA </LABEL>
 		<LABEL pos='100.95510,38.48059' direction='3' font='3' color='FF0080' style='0'>I2CSCL</LABEL>
 		<JUNCTION pos='198.58000,38.41057'/>
+		<JUNCTION pos='172.40000,104.00000'/>
+		<JUNCTION pos='172.50000,118.00000'/>
+		<JUNCTION pos='172.50000,132.00000'/>
+		<JUNCTION pos='172.50000,146.00000'/>
 	</TinyCAD>
 </TinyCADSheets>
