@@ -11,31 +11,31 @@
 #define I2C_SCL 1 // GPIO pin for I2C SCL
 #define I2C_ADDR 0x30 // I2C address of the slave device
 
-#define Button_X_Inc 0 // GPIO pin for X increment button
-#define Button_X_Dec 0 // GPIO pin for X decrement button
-#define Button_Y_Inc 0 // GPIO pin for Y increment button
-#define Button_Y_Dec 0 // GPIO pin for Y decrement button
-#define Button_Z_Inc 0 // GPIO pin for Z increment button
-#define Button_Z_Dec 0 // GPIO pin for Z decrement button
-#define Button_Grabber 0 // GPIO pin for grabber button
+#define Button_X_Inc 20 // GPIO pin for X increment button
+#define Button_X_Dec 21 // GPIO pin for X decrement button
+#define Button_Y_Inc 18 // GPIO pin for Y increment button
+#define Button_Y_Dec 19 // GPIO pin for Y decrement button
+#define Button_Z_Inc 16 // GPIO pin for Z increment button
+#define Button_Z_Dec 17 // GPIO pin for Z decrement button
+#define Button_Grabber 22 // GPIO pin for grabber button
 
-#define PWM_X_Out 0 // GPIO pin for X motor PWM output
-#define DIR_X_Out 0 // GPIO pin for X motor direction output
-#define PWM_Y_Out 0 // GPIO pin for Y motor PWM output
-#define DIR_Y_Out 0 // GPIO pin for Y motor direction output
-#define PWM_Z_Out 0 // GPIO pin for Z motor PWM output
-#define DIR_Z_Out 0 // GPIO pin for Z motor direction output
-#define GPIO_Grabber_Open_Out 0 // GPIO pin for grabber output
-#define GPIO_Grabber_Close_Out 0 // GPIO pin for grabber output
+#define PWM_X_Out 2 // GPIO pin for X motor PWM output
+#define DIR_X_Out 3 // GPIO pin for X motor direction output
+#define PWM_Y_Out 10 // GPIO pin for Y motor PWM output
+#define DIR_Y_Out 11 // GPIO pin for Y motor direction output
+#define PWM_Z_Out 12 // GPIO pin for Z motor PWM output
+#define DIR_Z_Out 13 // GPIO pin for Z motor direction output
+#define GPIO_Grabber_Open_Out 14 // GPIO pin for grabber output
+#define GPIO_Grabber_Close_Out 15 // GPIO pin for grabber output
 
-#define SENSOR_Grabber_Open_In 0 // GPIO pin for grabber status
-#define SENSOR_Grabber_Close_In 0 // GPIO pin for grabber status
-#define MIN_X_In 0 // GPIO pin for X min limit switch
-#define MAX_X_In 0 // GPIO pin for X max limit switch
-#define MIN_Y_In 0 // GPIO pin for Y min limit switch
-#define MAX_Y_In 0 // GPIO pin for Y max limit switch
-#define MIN_Z_In 0 // GPIO pin for Z min limit switch
-#define MAX_Z_In 0 // GPIO pin for Z max limit switch
+#define SENSOR_Grabber_Open_In 26 // GPIO pin for grabber status
+#define SENSOR_Grabber_Close_In 27 // GPIO pin for grabber status
+#define MIN_X_In 4 // GPIO pin for X min limit switch
+#define MAX_X_In 5 // GPIO pin for X max limit switch
+#define MIN_Y_In 6 // GPIO pin for Y min limit switch
+#define MAX_Y_In 7 // GPIO pin for Y max limit switch
+#define MIN_Z_In 8 // GPIO pin for Z min limit switch
+#define MAX_Z_In 9 // GPIO pin for Z max limit switch
 
 int min_x = 0;
 int max_x = 100;
