@@ -48,6 +48,11 @@ int y_pos = 0;
 int z_pos = 0;
 int grabber_status = 0; // 0 = closed, 1 = open
 
+int x_axis_state = IDLE;
+int y_axis_state = IDLE;
+int z_axis_state = IDLE;
+int grabber_state = IDLE;
+
 enum {
     IDLE,
     INCREASE,
@@ -60,11 +65,6 @@ enum {
     OPEN,
     CLOSE
 };
-
-int x_axis_state = IDLE;
-int y_axis_state = IDLE;
-int z_axis_state = IDLE;
-int grabber_state = IDLE;
 
 void set_pwm(int gpio_pin, int duty_cycle) {
     gpio_set_function(gpio_pin, GPIO_FUNC_PWM);
@@ -110,6 +110,38 @@ void read_grabber_status(void* nothing)
         else if (gpio_get(SENSOR_Grabber_Close_In) == 1)
         {
             grabber_status = 0;
+        }
+    }
+}
+
+void grabber_controller(void* nothing)
+{
+    while (true)
+    {
+        switch (grabber_state)
+        {
+           case IDLE:
+                if (grabber_status == 0 && gpio_get(Button_Grabber) == 1)
+                {
+                    grabber_state = OPEN;
+                }
+                else if (grabber_status == 1 && gpio_get(Button_Grabber) == 1)
+                {
+                    grabber_state = CLOSE;
+                }
+            break;
+
+            case OPEN:
+                gpio_put(GPIO_Grabber_Open_Out, 1);
+                gpio_put(GPIO_Grabber_Close_Out, 0);
+                grabber_state = IDLE;
+            break;
+
+            case CLOSE:
+                gpio_put(GPIO_Grabber_Open_Out, 0);
+                gpio_put(GPIO_Grabber_Close_Out, 1);
+                grabber_state = IDLE;
+            break;
         }
     }
 }
@@ -288,20 +320,75 @@ void z_axis_controller(void* nothing)
     }
 }
 
-void grabber_controller(void* nothing)
+void setup_gpio()
 {
-    while (true)
-    {
-        switch (grabber_state)
-        {
-            
-        }
-    }
+    stdio_init_all();
+
+    gpio_init(I2C_SDA);
+    gpio_set_dir(I2C_SDA, GPIO_IN);
+    gpio_init(I2C_SCL);
+    gpio_set_dir(I2C_SCL, GPIO_IN);
+
+    gpio_init(Button_X_Inc);
+    gpio_set_dir(Button_X_Inc, GPIO_IN);
+    gpio_pull_up(Button_X_Inc);
+    gpio_init(Button_X_Dec);
+    gpio_set_dir(Button_X_Dec, GPIO_IN);
+    gpio_pull_up(Button_X_Dec);
+    gpio_init(Button_Y_Inc);
+    gpio_set_dir(Button_Y_Inc, GPIO_IN);
+    gpio_pull_up(Button_Y_Inc);
+    gpio_init(Button_Y_Dec);
+    gpio_set_dir(Button_Y_Dec, GPIO_IN);
+    gpio_pull_up(Button_Y_Dec);
+    gpio_init(Button_Z_Inc);
+    gpio_set_dir(Button_Z_Inc, GPIO_IN);
+    gpio_pull_up(Button_Z_Inc);
+    gpio_init(Button_Z_Dec);
+    gpio_set_dir(Button_Z_Dec, GPIO_IN);
+    gpio_pull_up(Button_Z_Dec);
+    gpio_init(Button_Grabber);
+    gpio_set_dir(Button_Grabber, GPIO_IN);
+    gpio_pull_up(Button_Grabber);
+
+    gpio_init(SENSOR_Grabber_Open_In);
+    gpio_set_dir(SENSOR_Grabber_Open_In, GPIO_IN);
+    gpio_init(SENSOR_Grabber_Close_In);
+    gpio_set_dir(SENSOR_Grabber_Close_In, GPIO_IN);
+    gpio_init(MIN_X_In);
+    gpio_set_dir(MIN_X_In, GPIO_IN);
+    gpio_init(MAX_X_In);
+    gpio_set_dir(MAX_X_In, GPIO_IN);
+    gpio_init(MIN_Y_In);
+    gpio_set_dir(MIN_Y_In, GPIO_IN);
+    gpio_init(MAX_Y_In);
+    gpio_set_dir(MAX_Y_In, GPIO_IN);
+    gpio_init(MIN_Z_In);
+    gpio_set_dir(MIN_Z_In, GPIO_IN);
+    gpio_init(MAX_Z_In);
+    gpio_set_dir(MAX_Z_In, GPIO_IN);
+
+    gpio_init(PWM_X_Out);
+    gpio_set_dir(PWM_X_Out, GPIO_OUT);
+    gpio_init(DIR_X_Out);
+    gpio_set_dir(DIR_X_Out, GPIO_OUT);
+    gpio_init(PWM_Y_Out);
+    gpio_set_dir(PWM_Y_Out, GPIO_OUT);
+    gpio_init(DIR_Y_Out);
+    gpio_set_dir(DIR_Y_Out, GPIO_OUT);
+    gpio_init(PWM_Z_Out);
+    gpio_set_dir(PWM_Z_Out, GPIO_OUT);
+    gpio_init(DIR_Z_Out);
+    gpio_set_dir(DIR_Z_Out, GPIO_OUT);
+    gpio_init(GPIO_Grabber_Open_Out);
+    gpio_set_dir(GPIO_Grabber_Open_Out, GPIO_OUT);
+    gpio_init(GPIO_Grabber_Close_Out);
+    gpio_set_dir(GPIO_Grabber_Close_Out, GPIO_OUT);
 }
 
 int main()
 {   
-    stdio_init_all();
+    setup_gpio();
 
     xTaskCreate(i2c_controller, "i2c_controller", 1000, NULL, 1, NULL);
     xTaskCreate(read_grabber_status, "read_grabber_status", 1000, NULL, 1, NULL);
