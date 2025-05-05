@@ -66,7 +66,8 @@ enum {
     CLOSE
 };
 
-void set_pwm(int gpio_pin, int duty_cycle) {
+void set_pwm(int gpio_pin, int duty_cycle) 
+{
     gpio_set_function(gpio_pin, GPIO_FUNC_PWM);
     uint slice_num = pwm_gpio_to_slice_num(gpio_pin);
     pwm_set_wrap(slice_num, 255);
