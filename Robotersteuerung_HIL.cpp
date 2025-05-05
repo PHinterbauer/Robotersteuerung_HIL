@@ -322,8 +322,6 @@ void z_axis_controller(void* nothing)
 
 void setup_gpio()
 {
-    stdio_init_all();
-
     gpio_init(I2C_SDA);
     gpio_set_dir(I2C_SDA, GPIO_IN);
     gpio_init(I2C_SCL);
@@ -388,6 +386,7 @@ void setup_gpio()
 
 int main()
 {   
+    stdio_init_all();
     setup_gpio();
 
     xTaskCreate(i2c_controller, "i2c_controller", 1000, NULL, 1, NULL);
