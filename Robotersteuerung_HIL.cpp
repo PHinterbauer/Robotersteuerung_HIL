@@ -49,7 +49,7 @@
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
 #define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
 
-#define USE_CONSOLE_FOR_INPUT 1 // Flag to use console for input
+#define USE_CONSOLE_FOR_INPUT 0 // Flag to use console for input
 #define MAX_COMMANDS 100 // Maximum number of commands for console input
 #define MAX_COMMAND_LENGTH 256 // Maximum length of input string for command
 
@@ -232,7 +232,7 @@ void console_input_handler(void* nothing)
         {
             char input[MAX_COMMAND_LENGTH];
             printf("Enter command, 'run', or 'display': ");
-            scanf(" %[^\n]", input); // Read the entire line of input
+            scanf("%s", input); // Read the entire line of input // USE WHILE !!!!!!!!!!!!!!!!!!!
 
             if (strcmp(input, "run") == 0)
             {
