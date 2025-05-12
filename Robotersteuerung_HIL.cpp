@@ -49,7 +49,7 @@
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
 #define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
 
-#define USE_CONSOLE_FOR_INPUT 0 // Flag to use console for input
+#define USE_CONSOLE_FOR_INPUT 1 // Flag to use console for input
 #define MAX_COMMANDS 100 // Maximum number of commands for console input
 #define MAX_COMMAND_LENGTH 256 // Maximum length of input string for command
 
@@ -225,6 +225,7 @@ void console_input_handler(void* nothing)
 {   
     if (USE_CONSOLE_FOR_INPUT)
     {
+        vTaskDelay(pdMS_TO_TICKS(1000));
         printf("Input format: x <int>, y <int>, z <int>, grabber <int 0 closed 1 open>\n");
         printf("Enter command or 'run' to execute or 'display' to show commands\n");
         while (true)
@@ -610,7 +611,7 @@ void setup_gpio()
 int main()
 {   
     stdio_init_all();
-
+    
     setup_gpio();
 
     xTaskCreate(console_input_handler, "console_input_handler", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);

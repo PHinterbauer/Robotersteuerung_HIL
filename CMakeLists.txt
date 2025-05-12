@@ -23,7 +23,7 @@ if (EXISTS ${picoVscode})
     include(${picoVscode})
 endif()
 # ====================================================================================
-set(PICO_BOARD pico CACHE STRING "Board type")
+set(PICO_BOARD pico_w CACHE STRING "Board type")
 
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
@@ -44,7 +44,7 @@ pico_set_program_version(Robotersteuerung_HIL "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(Robotersteuerung_HIL 0)
-pico_enable_stdio_usb(Robotersteuerung_HIL 0)
+pico_enable_stdio_usb(Robotersteuerung_HIL 1)
 
 # Add the standard library to the build
 target_link_libraries(Robotersteuerung_HIL
@@ -60,10 +60,10 @@ target_link_libraries(Robotersteuerung_HIL
     pico_i2c_slave
     # FreeRTOS libraries if used directly (often handled by kernel include)
 )
-pico_add_extra_outputs(Robotersteuerung_HIL)
-pico_enable_stdio_usb(Robotersteuerung_HIL 1)
 
 # Add the standard include files to the build
 target_include_directories(Robotersteuerung_HIL PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
 )
+
+pico_add_extra_outputs(Robotersteuerung_HIL)
