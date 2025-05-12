@@ -78,6 +78,23 @@ Axis y_axis = {0, 100, 0, IDLE_AXIS}; // Y-axis configuration
 Axis z_axis = {0, 150, 0, IDLE_AXIS}; // Z-axis configuration
 Grabber grabber = {0, IDLE_GRABBER};  // Grabber configuration
 
+// Initializes GPIO pins for input
+void init_gpio_input(int pin, bool pull_up)
+{
+    gpio_init(pin);
+    gpio_set_dir(pin, GPIO_IN);
+    if (pull_up) {
+        gpio_pull_up(pin);
+    }
+}
+
+// Initializes GPIO pins for output
+void init_gpio_output(int pin)
+{
+    gpio_init(pin);
+    gpio_set_dir(pin, GPIO_OUT);
+}
+
 // Sets up PWM on a given GPIO pin with a specified duty cycle
 void set_pwm(int gpio_pin, int duty_cycle) 
 {
@@ -96,21 +113,41 @@ void i2c_controller(void* nothing)
         uint8_t reg_addr = 0x00;
 
         int x_axis_data = 0;
-        i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
-        i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &x_axis_data, 4, false);
+        if (i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true) < 0)
+        {
+            printf("I2C write failed for x-axis\n");
+        }
+        if (i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &x_axis_data, 4, false) < 0)
+        {
+            printf("I2C read failed for x-axis\n");
+        }
         x_axis.position = x_axis_data;
 
         reg_addr = 0x04;
         int y_axis_data = 0;
-        i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
-        i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &y_axis_data, 4, false);
+        if (i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true) <0)
+        {
+            printf("I2C write failed for y-axis\n");
+        }
+        if (i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &y_axis_data, 4, false) < 0)
+        {
+            printf("I2C read failed for y-axis\n");
+        }
         y_axis.position = y_axis_data;
 
         reg_addr = 0x08;
         int z_axis_data = 0;
-        i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
-        i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &z_axis_data, 4, false);
+        if (i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true) < 0)
+        {
+            printf("I2C write failed for z-axis\n");
+        }
+        if (i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &z_axis_data, 4, false) < 0)
+        {
+            printf("I2C read failed for z-axis\n");
+        }
         z_axis.position = z_axis_data;
+        
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -127,6 +164,8 @@ void read_grabber_status(void* nothing)
         {
             grabber.status = 0;
         }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -160,6 +199,8 @@ void grabber_controller(void* nothing)
                 grabber.state = IDLE_GRABBER;
             break;
         }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -228,6 +269,8 @@ void x_axis_controller(void* nothing)
                 x_axis.state = IDLE_AXIS;
             break;
         }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -287,6 +330,8 @@ void y_axis_controller(void* nothing)
                 y_axis.state = IDLE_AXIS;
             break;
         }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -346,72 +391,60 @@ void z_axis_controller(void* nothing)
                 z_axis.state = IDLE_AXIS;
             break;
         }
+
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
 // Configures GPIO pins for input/output and initializes pull-up resistors
 void setup_gpio()
 {
-    gpio_init(I2C_SDA);
-    gpio_set_dir(I2C_SDA, GPIO_IN);
-    gpio_init(I2C_SCL);
-    gpio_set_dir(I2C_SCL, GPIO_IN);
+    int gpio_input_pins_pull_up[] = {
+        Button_X_Inc, 
+        Button_X_Dec, 
+        Button_Y_Inc, 
+        Button_Y_Dec,
+        Button_Z_Inc, 
+        Button_Z_Dec, 
+        Button_Grabber,
+        SENSOR_Grabber_Open_In, 
+        SENSOR_Grabber_Close_In
+    };
 
-    gpio_init(Button_X_Inc);
-    gpio_set_dir(Button_X_Inc, GPIO_IN);
-    gpio_pull_up(Button_X_Inc);
-    gpio_init(Button_X_Dec);
-    gpio_set_dir(Button_X_Dec, GPIO_IN);
-    gpio_pull_up(Button_X_Dec);
-    gpio_init(Button_Y_Inc);
-    gpio_set_dir(Button_Y_Inc, GPIO_IN);
-    gpio_pull_up(Button_Y_Inc);
-    gpio_init(Button_Y_Dec);
-    gpio_set_dir(Button_Y_Dec, GPIO_IN);
-    gpio_pull_up(Button_Y_Dec);
-    gpio_init(Button_Z_Inc);
-    gpio_set_dir(Button_Z_Inc, GPIO_IN);
-    gpio_pull_up(Button_Z_Inc);
-    gpio_init(Button_Z_Dec);
-    gpio_set_dir(Button_Z_Dec, GPIO_IN);
-    gpio_pull_up(Button_Z_Dec);
-    gpio_init(Button_Grabber);
-    gpio_set_dir(Button_Grabber, GPIO_IN);
-    gpio_pull_up(Button_Grabber);
+    int gpio_input_pins[] = {
+        MIN_X_In, 
+        MAX_X_In, 
+        MIN_Y_In, 
+        MAX_Y_In,
+        MIN_Z_In, 
+        MAX_Z_In
+    };
 
-    gpio_init(SENSOR_Grabber_Open_In);
-    gpio_set_dir(SENSOR_Grabber_Open_In, GPIO_IN);
-    gpio_init(SENSOR_Grabber_Close_In);
-    gpio_set_dir(SENSOR_Grabber_Close_In, GPIO_IN);
-    gpio_init(MIN_X_In);
-    gpio_set_dir(MIN_X_In, GPIO_IN);
-    gpio_init(MAX_X_In);
-    gpio_set_dir(MAX_X_In, GPIO_IN);
-    gpio_init(MIN_Y_In);
-    gpio_set_dir(MIN_Y_In, GPIO_IN);
-    gpio_init(MAX_Y_In);
-    gpio_set_dir(MAX_Y_In, GPIO_IN);
-    gpio_init(MIN_Z_In);
-    gpio_set_dir(MIN_Z_In, GPIO_IN);
-    gpio_init(MAX_Z_In);
-    gpio_set_dir(MAX_Z_In, GPIO_IN);
+    int gpio_output_pins[] = {
+        PWM_X_Out, 
+        DIR_X_Out, 
+        PWM_Y_Out, 
+        DIR_Y_Out,
+        PWM_Z_Out, 
+        DIR_Z_Out, 
+        GPIO_Grabber_Open_Out, 
+        GPIO_Grabber_Close_Out
+    };
 
-    gpio_init(PWM_X_Out);
-    gpio_set_dir(PWM_X_Out, GPIO_OUT);
-    gpio_init(DIR_X_Out);
-    gpio_set_dir(DIR_X_Out, GPIO_OUT);
-    gpio_init(PWM_Y_Out);
-    gpio_set_dir(PWM_Y_Out, GPIO_OUT);
-    gpio_init(DIR_Y_Out);
-    gpio_set_dir(DIR_Y_Out, GPIO_OUT);
-    gpio_init(PWM_Z_Out);
-    gpio_set_dir(PWM_Z_Out, GPIO_OUT);
-    gpio_init(DIR_Z_Out);
-    gpio_set_dir(DIR_Z_Out, GPIO_OUT);
-    gpio_init(GPIO_Grabber_Open_Out);
-    gpio_set_dir(GPIO_Grabber_Open_Out, GPIO_OUT);
-    gpio_init(GPIO_Grabber_Close_Out);
-    gpio_set_dir(GPIO_Grabber_Close_Out, GPIO_OUT);
+    for (int i : gpio_input_pins_pull_up)
+    {
+        init_gpio_input(i, true);
+    }
+
+    for (int i : gpio_input_pins)
+    {
+        init_gpio_input(i, false);
+    }
+
+    for (int i : gpio_output_pins)
+    {
+        init_gpio_output(i);
+    }
 }
 
 // Main function initializes GPIO and starts FreeRTOS tasks
