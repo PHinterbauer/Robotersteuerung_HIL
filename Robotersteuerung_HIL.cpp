@@ -7,10 +7,12 @@
 #include "hardware/i2c.h"
 #include "hardware/pwm.h"
 
+// I2C configuration
 #define I2C_SDA 0 // GPIO pin for I2C SDA
 #define I2C_SCL 1 // GPIO pin for I2C SCL
 #define I2C_ADDR 0x30 // I2C address of the slave device
 
+// GPIO pin definitions for buttons and sensors
 #define Button_X_Inc 20 // GPIO pin for X increment button
 #define Button_X_Dec 21 // GPIO pin for X decrement button
 #define Button_Y_Inc 18 // GPIO pin for Y increment button
@@ -37,44 +39,56 @@
 #define MIN_Z_In 8 // GPIO pin for Z min limit switch
 #define MAX_Z_In 9 // GPIO pin for Z max limit switch
 
-int min_x = 0;
-int max_x = 100;
-int min_y = 0;
-int max_y = 100;
-int min_z = 0;
-int max_z = 150;
-int x_pos = 0;
-int y_pos = 0;
-int z_pos = 0;
-int grabber_status = 0; // 0 = closed, 1 = open
+// PWM configuration and FreeRTOS task settings
+#define PWM_WRAP_VALUE 255 // PWM wrap value for 8-bit resolution
+#define TASK_STACK_SIZE 1000 // Stack size for FreeRTOS tasks
 
-enum {
+// Enumeration for axis states
+enum AxisState {
     IDLE_AXIS,
     INCREASE,
     DECREASE,
     SLOW
 };
 
-enum {
+// Enumeration for grabber states
+enum GrabberState {
     IDLE_GRABBER,
     OPEN,
     CLOSE
 };
 
-int x_axis_state = IDLE_AXIS;
-int y_axis_state = IDLE_AXIS;
-int z_axis_state = IDLE_AXIS;
-int grabber_state = IDLE_GRABBER;
+// Struct for axis configuration
+typedef struct {
+    int min_limit; // Minimum position limit
+    int max_limit; // Maximum position limit
+    int position;  // Current position
+    enum AxisState state; // Axis state
+} Axis;
 
+// Struct for grabber configuration
+typedef struct {
+    int status; // 0 = closed, 1 = open
+    enum GrabberState state; // Grabber state
+} Grabber;
+
+// Axis and grabber definitions
+Axis x_axis = {0, 100, 0, IDLE_AXIS}; // X-axis configuration
+Axis y_axis = {0, 100, 0, IDLE_AXIS}; // Y-axis configuration
+Axis z_axis = {0, 150, 0, IDLE_AXIS}; // Z-axis configuration
+Grabber grabber = {0, IDLE_GRABBER};  // Grabber configuration
+
+// Sets up PWM on a given GPIO pin with a specified duty cycle
 void set_pwm(int gpio_pin, int duty_cycle) 
 {
     gpio_set_function(gpio_pin, GPIO_FUNC_PWM);
     uint slice_num = pwm_gpio_to_slice_num(gpio_pin);
-    pwm_set_wrap(slice_num, 255);
+    pwm_set_wrap(slice_num, PWM_WRAP_VALUE);
     pwm_set_chan_level(slice_num, pwm_gpio_to_channel(gpio_pin), duty_cycle); 
     pwm_set_enabled(slice_num, true);
 }
 
+// Reads position data from the I2C slave device
 void i2c_controller(void* nothing)
 {
     while (true)
@@ -84,89 +98,92 @@ void i2c_controller(void* nothing)
         int x_axis_data = 0;
         i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
         i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &x_axis_data, 4, false);
-        x_pos = x_axis_data;
+        x_axis.position = x_axis_data;
 
         reg_addr = 0x04;
         int y_axis_data = 0;
         i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
         i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &y_axis_data, 4, false);
-        y_pos = y_axis_data;
+        y_axis.position = y_axis_data;
 
         reg_addr = 0x08;
         int z_axis_data = 0;
         i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
         i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &z_axis_data, 4, false);
-        z_pos = z_axis_data;
+        z_axis.position = z_axis_data;
     }
 }
 
+// Monitors the grabber's open/close status using sensors
 void read_grabber_status(void* nothing)
 {
     while (true)
     {
         if (gpio_get(SENSOR_Grabber_Open_In) == 1)
         {
-            grabber_status = 1;
+            grabber.status = 1;
         }
         else if (gpio_get(SENSOR_Grabber_Close_In) == 1)
         {
-            grabber_status = 0;
+            grabber.status = 0;
         }
     }
 }
 
+// Controls the grabber's open/close mechanism based on button input
 void grabber_controller(void* nothing)
 {
     while (true)
     {
-        switch (grabber_state)
+        switch (grabber.state)
         {
            case IDLE_GRABBER:
-                if (grabber_status == 0 && gpio_get(Button_Grabber) == 1)
+                if (grabber.status == 0 && gpio_get(Button_Grabber) == 1)
                 {
-                    grabber_state = OPEN;
+                    grabber.state = OPEN;
                 }
-                else if (grabber_status == 1 && gpio_get(Button_Grabber) == 1)
+                else if (grabber.status == 1 && gpio_get(Button_Grabber) == 1)
                 {
-                    grabber_state = CLOSE;
+                    grabber.state = CLOSE;
                 }
             break;
 
             case OPEN:
                 gpio_put(GPIO_Grabber_Open_Out, 1);
                 gpio_put(GPIO_Grabber_Close_Out, 0);
-                grabber_state = IDLE_GRABBER;
+                grabber.state = IDLE_GRABBER;
             break;
 
             case CLOSE:
                 gpio_put(GPIO_Grabber_Open_Out, 0);
                 gpio_put(GPIO_Grabber_Close_Out, 1);
-                grabber_state = IDLE_GRABBER;
+                grabber.state = IDLE_GRABBER;
             break;
         }
     }
 }
 
+// Controls the X-axis motor based on button input and position limits
 void x_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
     while (true)
     {
-        switch (x_axis_state)
+        switch (x_axis.state)
         {
             case IDLE_AXIS:
                 if (gpio_get(Button_X_Inc) == 1)
                 {
-                    x_axis_state = INCREASE;
+                    x_axis.state = INCREASE;
                 }
                 else if (gpio_get(Button_X_Dec) == 1)
                 {
-                    x_axis_state = DECREASE;
+                    x_axis.state = DECREASE;
                 }
             break;
 
             case INCREASE:
-                if (x_pos < max_x && x_pos > min_x && gpio_get(MAX_X_In) == 0 && gpio_get(MIN_X_In) == 0)
+                if (x_axis.position < x_axis.max_limit && x_axis.position > x_axis.min_limit && gpio_get(MAX_X_In) == 0 && gpio_get(MIN_X_In) == 0)
                 {
                     gpio_put(DIR_X_Out, 1);
                     if (duty_cycle < 255)
@@ -177,12 +194,21 @@ void x_axis_controller(void* nothing)
                 }
                 else
                 {
-                    x_axis_state = SLOW;
+                    x_axis.state = SLOW;
                 }
             break;
 
             case DECREASE:
-                if (x_pos < max_x && x_pos > min_x)
+                if (x_axis.position < x_axis.max_limit && x_axis.position > x_axis.min_limit)
+                {
+                    gpio_put(DIR_X_Out, 0);
+                    if (duty_cycle > 0)
+                    {
+                        duty_cycle--;
+                    }
+                    set_pwm(PWM_X_Out, duty_cycle);
+                }
+                else if (gpio_get(MAX_X_In) == 1 && gpio_get(MIN_X_In) == 1)
                 {
                     gpio_put(DIR_X_Out, 0);
                     if (duty_cycle > 0)
@@ -193,38 +219,39 @@ void x_axis_controller(void* nothing)
                 }
                 else
                 {
-                    x_axis_state = SLOW;
+                    x_axis.state = SLOW;
                 }
             break;
 
             case SLOW:
                 set_pwm(PWM_X_Out, 0);
-                x_axis_state = IDLE_AXIS;
+                x_axis.state = IDLE_AXIS;
             break;
         }
     }
 }
 
+// Controls the Y-axis motor based on button input and position limits
 void y_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
     while (true)
     {
-        switch (y_axis_state)
+        switch (y_axis.state)
         {
             case IDLE_AXIS:
                 if (gpio_get(Button_Y_Inc) == 1)
                 {
-                    y_axis_state = INCREASE;
+                    y_axis.state = INCREASE;
                 }
                 else if (gpio_get(Button_Y_Dec) == 1)
                 {
-                    y_axis_state = DECREASE;
+                    y_axis.state = DECREASE;
                 }
             break;
 
             case INCREASE:
-                if (y_pos < max_y && y_pos > min_y && gpio_get(MAX_Y_In) == 0 && gpio_get(MIN_Y_In) == 0)
+                if (y_axis.position < y_axis.max_limit && y_axis.position > y_axis.min_limit && gpio_get(MAX_Y_In) == 0 && gpio_get(MIN_Y_In) == 0)
                 {
                     gpio_put(DIR_Y_Out, 1);
                     if (duty_cycle < 255)
@@ -235,12 +262,12 @@ void y_axis_controller(void* nothing)
                 }
                 else
                 {
-                    y_axis_state = SLOW;
+                    y_axis.state = SLOW;
                 }
             break;
 
             case DECREASE:
-                if (y_pos < max_y && y_pos > min_y)
+                if (y_axis.position < y_axis.max_limit && y_axis.position > y_axis.min_limit)
                 {
                     gpio_put(DIR_Y_Out, 0);
                     if (duty_cycle > 0)
@@ -251,38 +278,39 @@ void y_axis_controller(void* nothing)
                 }
                 else
                 {
-                    y_axis_state = SLOW;
+                    y_axis.state = SLOW;
                 }
             break;
 
             case SLOW:
                 set_pwm(PWM_Y_Out, 0);
-                y_axis_state = IDLE_AXIS;
+                y_axis.state = IDLE_AXIS;
             break;
         }
     }
 }
 
+// Controls the Z-axis motor based on button input and position limits
 void z_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
     while (true)
     {
-        switch (z_axis_state)
+        switch (z_axis.state)
         {
             case IDLE_AXIS:
                 if (gpio_get(Button_Z_Inc) == 1)
                 {
-                    z_axis_state = INCREASE;
+                    z_axis.state = INCREASE;
                 }
                 else if (gpio_get(Button_Z_Dec) == 1)
                 {
-                    z_axis_state = DECREASE;
+                    z_axis.state = DECREASE;
                 }
             break;
 
             case INCREASE:
-                if (z_pos < max_z && z_pos > min_z && gpio_get(MAX_Z_In) == 0 && gpio_get(MIN_Z_In) == 0)
+                if (z_axis.position < z_axis.max_limit && z_axis.position > z_axis.min_limit && gpio_get(MAX_Z_In) == 0 && gpio_get(MIN_Z_In) == 0)
                 {
                     gpio_put(DIR_Z_Out, 1);
                     if (duty_cycle < 255)
@@ -293,12 +321,12 @@ void z_axis_controller(void* nothing)
                 }
                 else
                 {
-                    z_axis_state = SLOW;
+                    z_axis.state = SLOW;
                 }
             break;
 
             case DECREASE:
-                if (z_pos < max_z && z_pos > min_z)
+                if (z_axis.position < z_axis.max_limit && z_axis.position > z_axis.min_limit)
                 {
                     gpio_put(DIR_Z_Out, 0);
                     if (duty_cycle > 0)
@@ -309,18 +337,19 @@ void z_axis_controller(void* nothing)
                 }
                 else
                 {
-                    z_axis_state = SLOW;
+                    z_axis.state = SLOW;
                 }
             break;
 
             case SLOW:
                 set_pwm(PWM_Z_Out, 0);
-                z_axis_state = IDLE_AXIS;
+                z_axis.state = IDLE_AXIS;
             break;
         }
     }
 }
 
+// Configures GPIO pins for input/output and initializes pull-up resistors
 void setup_gpio()
 {
     gpio_init(I2C_SDA);
@@ -385,17 +414,18 @@ void setup_gpio()
     gpio_set_dir(GPIO_Grabber_Close_Out, GPIO_OUT);
 }
 
+// Main function initializes GPIO and starts FreeRTOS tasks
 int main()
 {   
     stdio_init_all();
     setup_gpio();
 
-    xTaskCreate(i2c_controller, "i2c_controller", 1000, NULL, 1, NULL);
-    xTaskCreate(read_grabber_status, "read_grabber_status", 1000, NULL, 1, NULL);
-    xTaskCreate(x_axis_controller, "x_axis_controller", 1000, NULL, 1, NULL);
-    xTaskCreate(y_axis_controller, "y_axis_controller", 1000, NULL, 1, NULL);
-    xTaskCreate(z_axis_controller, "z_axis_controller", 1000, NULL, 1, NULL);
-    xTaskCreate(grabber_controller, "grabber_controller", 1000, NULL, 1, NULL);
+    xTaskCreate(i2c_controller, "i2c_controller", TASK_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(read_grabber_status, "read_grabber_status", TASK_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(x_axis_controller, "x_axis_controller", TASK_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(y_axis_controller, "y_axis_controller", TASK_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(z_axis_controller, "z_axis_controller", TASK_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(grabber_controller, "grabber_controller", TASK_STACK_SIZE, NULL, 1, NULL);
 
     vTaskStartScheduler();
 }
