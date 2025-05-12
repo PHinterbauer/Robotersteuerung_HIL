@@ -41,13 +41,17 @@
 
 // General configuration
 #define PWM_WRAP_VALUE 255 // PWM wrap value for 8-bit resolution
+
 #define TASK_STACK_SIZE 1000 // Stack size for FreeRTOS tasks
 #define TASK_PRIORITY 1 // Priority for FreeRTOS tasks
+
 #define AXIS_MAX_LIMIT 100 // Maximum axis limit
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
 #define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
+
 #define USE_CONSOLE_FOR_INPUT 0 // Flag to use console for input
 #define MAX_COMMANDS 100 // Maximum number of commands for console input
+#define MAX_COMMAND_LENGTH 256 // Maximum length of input string for command
 
 // Enumeration for axis states
 enum AxisState 
@@ -225,7 +229,7 @@ void console_input_handler(void* nothing)
         printf("Enter command or 'run' to execute or 'display' to show commands\n");
         while (true)
         {
-            char input[256];
+            char input[MAX_COMMAND_LENGTH];
             printf("Enter command, 'run', or 'display': ");
             scanf(" %[^\n]", input); // Read the entire line of input
 
