@@ -46,10 +46,12 @@
 #define AXIS_MAX_LIMIT 100 // Maximum axis limit
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
 #define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
-#define use_console_for_input 0 // Flag to use console for input
+#define USE_CONSOLE_FOR_INPUT 0 // Flag to use console for input
+#define MAX_COMMANDS 100 // Maximum number of commands for console input
 
 // Enumeration for axis states
-enum AxisState {
+enum AxisState 
+{
     IDLE_AXIS,
     INCREASE,
     DECREASE,
@@ -57,14 +59,25 @@ enum AxisState {
 };
 
 // Enumeration for grabber states
-enum GrabberState {
+enum GrabberState 
+{
     IDLE_GRABBER,
     OPEN,
     CLOSE
 };
 
+// Struct for command data
+typedef struct 
+{
+    float x; // X-axis position
+    float y; // Y-axis position
+    float z; // Z-axis position
+    int grabber_status; // Grabber state: 0 = closed, 1 = open
+} Command;
+
 // Struct for axis configuration
-typedef struct {
+typedef struct 
+{
     int min_limit; // Minimum position limit
     int max_limit; // Maximum position limit
     int position;  // Current position
@@ -72,7 +85,8 @@ typedef struct {
 } Axis;
 
 // Struct for grabber configuration
-typedef struct {
+typedef struct 
+{
     int status; // 0 = closed, 1 = open
     enum GrabberState state; // Grabber state
 } Grabber;
@@ -82,6 +96,14 @@ Axis x_axis = {AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, 0, IDLE_AXIS}; // X-axis configur
 Axis y_axis = {AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, 0, IDLE_AXIS}; // Y-axis configuration
 Axis z_axis = {AXIS_MIN_LIMIT, Z_AXIS_MAX_LIMIT, 0, IDLE_AXIS}; // Z-axis configuration
 Grabber grabber = {0, IDLE_GRABBER};  // Grabber configuration
+
+// Command definitions
+Command command_list[MAX_COMMANDS]; // List of commands
+int command_count = 0; // Number of commands in the list
+int target_x = 0; // Target X-axis position
+int target_y = 0; // Target Y-axis position
+int target_z = 0; // Target Z-axis position
+int target_grabber = 0; // Target grabber state
 
 // Initializes GPIO pins for input
 void init_gpio_input(int pin, bool pull_up)
@@ -108,6 +130,134 @@ void set_pwm(int gpio_pin, int duty_cycle)
     pwm_set_wrap(slice_num, PWM_WRAP_VALUE);
     pwm_set_chan_level(slice_num, pwm_gpio_to_channel(gpio_pin), duty_cycle); 
     pwm_set_enabled(slice_num, true);
+}
+
+// Parses a command string and fills the Command struct
+bool check_command_format(const char* input, Command* command)
+{
+    if (sscanf(input, "x %d, y %d, z %d, grabber %d", &command->x, &command->y, &command->z, &command->grabber_status) == 4)
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
+}
+
+// Displays the command list
+void display_commands()
+{
+    printf("Stored commands:\n");
+    for (int i = 0; i < command_count; i++)
+    {
+        printf("Command %d: x %d, y %d, z %d, grabber %d\n", i + 1, command_list[i].x, command_list[i].y, command_list[i].z, command_list[i].grabber_status);
+    }
+}
+
+// Executes the commands in the command list
+void execute_commands()
+{   
+    printf("Executing commands:\n");
+    for (int i = 0; i < command_count; i++)
+    {
+        target_x = command_list[i].x;
+        target_y = command_list[i].y;
+        target_z = command_list[i].z;
+        target_grabber = command_list[i].grabber_status;
+
+        printf("Executing command %d: x %f, y %f, z %f, grabber %d\n", i + 1, target_x, target_y, target_z, target_grabber);
+
+        while (x_axis.position != target_x || y_axis.position != target_y || z_axis.position != target_z)
+        {
+            if (x_axis.position < target_x) 
+            {
+                gpio_put(Button_X_Inc, 1); 
+            } else if (x_axis.position > target_x) 
+            {
+                gpio_put(Button_X_Dec, 1); 
+            } else {
+                gpio_put(Button_X_Inc, 0);
+                gpio_put(Button_X_Dec, 0);
+            }
+
+            if (y_axis.position < target_y) 
+            {
+                gpio_put(Button_Y_Inc, 1);
+            } else if (y_axis.position > target_y) 
+            {
+                gpio_put(Button_Y_Dec, 1);
+            } else {
+                gpio_put(Button_Y_Inc, 0);
+                gpio_put(Button_Y_Dec, 0);
+            }
+
+            if (z_axis.position < target_z) 
+            {
+                gpio_put(Button_Z_Inc, 1);
+            } else if (z_axis.position > target_z) 
+            {
+                gpio_put(Button_Z_Dec, 1);
+            } else {
+                gpio_put(Button_Z_Inc, 0);
+                gpio_put(Button_Z_Dec, 0);
+            }
+
+            vTaskDelay(pdMS_TO_TICKS(10));
+        }
+
+        if (grabber.status != target_grabber) 
+        {
+            gpio_put(Button_Grabber, 1);
+        } else
+        {
+            gpio_put(Button_Grabber, 0);
+        }
+    }
+    command_count = 0; // Clear the command list after execution
+}
+
+// Reads console input and adds commands to the command list
+void console_input_handler(void* nothing)
+{   
+    if (USE_CONSOLE_FOR_INPUT)
+    {
+        printf("Input format: x <float>, y <float>, z <float>, grabber <int 0 closed 1 open>\n");
+        printf("Enter command or 'run' to execute or 'display' to show commands\n");
+        while (true)
+        {
+            char input[256];
+            printf("Enter command, 'run', or 'display': ");
+            scanf(" %[^\n]", input); // Read the entire line of input
+
+            if (strcmp(input, "run") == 0)
+            {
+                execute_commands();
+            } else if (strcmp(input, "display") == 0)
+            {
+                display_commands();
+            }
+            else
+            {
+                if (command_count < MAX_COMMANDS)
+                {
+                    Command command;
+                    if (check_command_format(input, &command))
+                    {
+                        command_list[command_count++] = command;
+                        printf("Command added: x %f, y %f, z%f, grabber %d\n", command.x, command.y, command.z, command.grabber_status);
+                    } else
+                    {
+                        printf("Invalid command format. Please try again.\n");
+                    }
+                } else
+                {
+                    printf("Command list is full. Cannot add more commands.\n");
+                }
+            }
+        
+        vTaskDelay(pdMS_TO_TICKS(100));
+        }
+    }
 }
 
 // Reads position data from the I2C slave device
