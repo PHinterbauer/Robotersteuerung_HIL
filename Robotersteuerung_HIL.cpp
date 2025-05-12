@@ -46,6 +46,7 @@
 #define AXIS_MAX_LIMIT 100 // Maximum axis limit
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
 #define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
+#define use_console_for_input 0 // Flag to use console for input
 
 // Enumeration for axis states
 enum AxisState {
@@ -455,6 +456,7 @@ void setup_gpio()
 int main()
 {   
     stdio_init_all();
+
     setup_gpio();
 
     xTaskCreate(i2c_controller, "i2c_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
