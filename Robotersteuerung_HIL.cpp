@@ -232,7 +232,8 @@ void console_input_handler(void* nothing)
         {
             char input[MAX_COMMAND_LENGTH];
             printf("Enter command, 'run', or 'display': ");
-            scanf("%s", input); // Read the entire line of input // USE WHILE !!!!!!!!!!!!!!!!!!!
+            // use scanf or something else to read user input and stop reading when enter is pressed or a semicolon is reached
+            ... 
 
             if (strcmp(input, "run") == 0)
             {
