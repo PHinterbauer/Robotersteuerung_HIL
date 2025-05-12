@@ -39,9 +39,13 @@
 #define MIN_Z_In 8 // GPIO pin for Z min limit switch
 #define MAX_Z_In 9 // GPIO pin for Z max limit switch
 
-// PWM configuration and FreeRTOS task settings
+// General configuration
 #define PWM_WRAP_VALUE 255 // PWM wrap value for 8-bit resolution
 #define TASK_STACK_SIZE 1000 // Stack size for FreeRTOS tasks
+#define TASK_PRIORITY 1 // Priority for FreeRTOS tasks
+#define AXIS_MAX_LIMIT 100 // Maximum axis limit
+#define AXIS_MIN_LIMIT 0 // Minimum axis limit
+#define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
 
 // Enumeration for axis states
 enum AxisState {
@@ -73,9 +77,9 @@ typedef struct {
 } Grabber;
 
 // Axis and grabber definitions
-Axis x_axis = {0, 100, 0, IDLE_AXIS}; // X-axis configuration
-Axis y_axis = {0, 100, 0, IDLE_AXIS}; // Y-axis configuration
-Axis z_axis = {0, 150, 0, IDLE_AXIS}; // Z-axis configuration
+Axis x_axis = {AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, 0, IDLE_AXIS}; // X-axis configuration
+Axis y_axis = {AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, 0, IDLE_AXIS}; // Y-axis configuration
+Axis z_axis = {AXIS_MIN_LIMIT, Z_AXIS_MAX_LIMIT, 0, IDLE_AXIS}; // Z-axis configuration
 Grabber grabber = {0, IDLE_GRABBER};  // Grabber configuration
 
 // Initializes GPIO pins for input
@@ -399,7 +403,7 @@ void z_axis_controller(void* nothing)
 // Configures GPIO pins for input/output and initializes pull-up resistors
 void setup_gpio()
 {
-    int gpio_input_pins_pull_up[] = {
+    const int gpio_input_pins_pull_up[] = {
         Button_X_Inc, 
         Button_X_Dec, 
         Button_Y_Inc, 
@@ -411,7 +415,7 @@ void setup_gpio()
         SENSOR_Grabber_Close_In
     };
 
-    int gpio_input_pins[] = {
+    const int gpio_input_pins[] = {
         MIN_X_In, 
         MAX_X_In, 
         MIN_Y_In, 
@@ -420,7 +424,7 @@ void setup_gpio()
         MAX_Z_In
     };
 
-    int gpio_output_pins[] = {
+    const int gpio_output_pins[] = {
         PWM_X_Out, 
         DIR_X_Out, 
         PWM_Y_Out, 
@@ -453,12 +457,12 @@ int main()
     stdio_init_all();
     setup_gpio();
 
-    xTaskCreate(i2c_controller, "i2c_controller", TASK_STACK_SIZE, NULL, 1, NULL);
-    xTaskCreate(read_grabber_status, "read_grabber_status", TASK_STACK_SIZE, NULL, 1, NULL);
-    xTaskCreate(x_axis_controller, "x_axis_controller", TASK_STACK_SIZE, NULL, 1, NULL);
-    xTaskCreate(y_axis_controller, "y_axis_controller", TASK_STACK_SIZE, NULL, 1, NULL);
-    xTaskCreate(z_axis_controller, "z_axis_controller", TASK_STACK_SIZE, NULL, 1, NULL);
-    xTaskCreate(grabber_controller, "grabber_controller", TASK_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(i2c_controller, "i2c_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(read_grabber_status, "read_grabber_status", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(x_axis_controller, "x_axis_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(y_axis_controller, "y_axis_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(z_axis_controller, "z_axis_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(grabber_controller, "grabber_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
 
     vTaskStartScheduler();
 }
