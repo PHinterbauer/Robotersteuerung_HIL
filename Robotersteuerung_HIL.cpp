@@ -73,9 +73,9 @@ enum GrabberState
 // Struct for command data
 typedef struct 
 {
-    float x; // X-axis position
-    float y; // Y-axis position
-    float z; // Z-axis position
+    int x; // X-axis position
+    int y; // Y-axis position
+    int z; // Z-axis position
     int grabber_status; // Grabber state: 0 = closed, 1 = open
 } Command;
 
@@ -225,7 +225,7 @@ void console_input_handler(void* nothing)
 {   
     if (USE_CONSOLE_FOR_INPUT)
     {
-        printf("Input format: x <float>, y <float>, z <float>, grabber <int 0 closed 1 open>\n");
+        printf("Input format: x <int>, y <int>, z <int>, grabber <int 0 closed 1 open>\n");
         printf("Enter command or 'run' to execute or 'display' to show commands\n");
         while (true)
         {
@@ -248,7 +248,7 @@ void console_input_handler(void* nothing)
                     if (check_command_format(input, &command))
                     {
                         command_list[command_count++] = command;
-                        printf("Command added: x %f, y %f, z%f, grabber %d\n", command.x, command.y, command.z, command.grabber_status);
+                        printf("Command added: x %d, y %d, z%d, grabber %d\n", command.x, command.y, command.z, command.grabber_status);
                     } else
                     {
                         printf("Invalid command format. Please try again.\n");
@@ -386,7 +386,7 @@ void x_axis_controller(void* nothing)
                 if (x_axis.position < x_axis.max_limit && x_axis.position > x_axis.min_limit && gpio_get(MAX_X_In) == 0 && gpio_get(MIN_X_In) == 0)
                 {
                     gpio_put(DIR_X_Out, 1);
-                    if (duty_cycle < 255)
+                    if (duty_cycle < PWM_WRAP_VALUE)
                     {
                         duty_cycle++;
                     }
@@ -456,7 +456,7 @@ void y_axis_controller(void* nothing)
                 if (y_axis.position < y_axis.max_limit && y_axis.position > y_axis.min_limit && gpio_get(MAX_Y_In) == 0 && gpio_get(MIN_Y_In) == 0)
                 {
                     gpio_put(DIR_Y_Out, 1);
-                    if (duty_cycle < 255)
+                    if (duty_cycle < PWM_WRAP_VALUE)
                     {
                         duty_cycle++;
                     }
@@ -517,7 +517,7 @@ void z_axis_controller(void* nothing)
                 if (z_axis.position < z_axis.max_limit && z_axis.position > z_axis.min_limit && gpio_get(MAX_Z_In) == 0 && gpio_get(MIN_Z_In) == 0)
                 {
                     gpio_put(DIR_Z_Out, 1);
-                    if (duty_cycle < 255)
+                    if (duty_cycle < PWM_WRAP_VALUE)
                     {
                         duty_cycle++;
                     }
