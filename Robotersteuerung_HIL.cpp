@@ -613,6 +613,7 @@ int main()
 
     setup_gpio();
 
+    xTaskCreate(console_input_handler, "console_input_handler", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
     xTaskCreate(i2c_controller, "i2c_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
     xTaskCreate(read_grabber_status, "read_grabber_status", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
     xTaskCreate(x_axis_controller, "x_axis_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
