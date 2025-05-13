@@ -137,14 +137,33 @@ void set_pwm(int gpio_pin, int duty_cycle)
 }
 
 // Parses a command string and fills the Command struct
-bool check_command_format(const char* input, Command* command)
+void check_command_format(char* input, Command* command)
 {
-    if (sscanf(input, "x %d, y %d, z %d, grabber %d", &command->x, &command->y, &command->z, &command->grabber_status) == 4)
+    char* single_command = strtok(input, ";");
+
+    if (*single_command == ' ') // Skip leading spaces
     {
-        return true;
-    } else
+        single_command++;
+    }
+
+    while (single_command != NULL)
     {
-        return false;
+        if (sscanf(single_command, "x %d, y %d, z %d, grabber %d", &command->x, &command->y, &command->z, &command->grabber_status) == 4)
+        {
+            if (command_count < MAX_COMMANDS)
+            {
+                command_list[command_count++] = *command;
+                printf("Command added: x %d, y %d, z%d, grabber %d\n", command->x, command->y, command->z, command->grabber_status);
+            }
+            else
+            {
+                printf("Command list is full. Cannot add more commands.\n");
+            }
+        } else
+        {
+            printf("Invalid command format: '%s'. Skipped.\n", single_command);
+        }
+        single_command = strtok(NULL, ";");
     }
 }
 
@@ -231,9 +250,25 @@ void console_input_handler(void* nothing)
         while (true)
         {
             char input[MAX_COMMAND_LENGTH];
+            char temp;
+            int i = 0;
+            // ERROR ENTER COMMAND TEXT GETS PRINTED DURING COMMANDS GET DISPLAYED
+            // Command added: x 234, y 234, z 242, grabber 1
+            // Enter command, 'run', or 'display': Command added: x 124, y 234, z 234, grabber 0
+            // Enter command, 'run', or 'display': Command added: x 123, y 422, z 234, grabber 0
+            ...
+
             printf("Enter command, 'run', or 'display': ");
-            // use scanf or something else to read user input and stop reading when enter is pressed or a semicolon is reached
-            ... 
+            while (i <(MAX_COMMAND_LENGTH - 1))
+            {
+                scanf("%c", &temp);
+                if (temp == '\n' || temp == ';')
+                {
+                    break;
+                }
+                input[i++] = temp;
+            }
+            input[i] = '\0';
 
             if (strcmp(input, "run") == 0)
             {
@@ -241,23 +276,12 @@ void console_input_handler(void* nothing)
             } else if (strcmp(input, "display") == 0)
             {
                 display_commands();
-            }
-            else
+            } else
             {
                 if (command_count < MAX_COMMANDS)
                 {
                     Command command;
-                    if (check_command_format(input, &command))
-                    {
-                        command_list[command_count++] = command;
-                        printf("Command added: x %d, y %d, z%d, grabber %d\n", command.x, command.y, command.z, command.grabber_status);
-                    } else
-                    {
-                        printf("Invalid command format. Please try again.\n");
-                    }
-                } else
-                {
-                    printf("Command list is full. Cannot add more commands.\n");
+                    check_command_format(input, &command);
                 }
             }
         
