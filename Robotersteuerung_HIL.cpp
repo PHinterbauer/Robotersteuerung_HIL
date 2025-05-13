@@ -244,7 +244,7 @@ void console_input_handler(void* nothing)
 {   
     if (USE_CONSOLE_FOR_INPUT)
     {
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(pdMS_TO_TICKS(1000)); // Wait for console to be ready
         printf("Input format: x <int>, y <int>, z <int>, grabber <int 0 closed 1 open>\n");
         printf("Enter command or 'run' to execute or 'display' to show commands\n");
         while (true)
@@ -258,11 +258,11 @@ void console_input_handler(void* nothing)
             // Enter command, 'run', or 'display': Command added: x 123, y 422, z 234, grabber 0
             ...
 
-            printf("Enter command, 'run', or 'display': ");
+            printf("Enter command, 'run', or 'display': \n");
             while (i <(MAX_COMMAND_LENGTH - 1))
             {
                 scanf("%c", &temp);
-                if (temp == '\n' || temp == ';')
+                if (temp == '\n')
                 {
                     break;
                 }
