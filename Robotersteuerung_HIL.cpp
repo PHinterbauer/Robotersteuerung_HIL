@@ -42,8 +42,8 @@
 // General configuration
 #define PWM_WRAP_VALUE 255 // PWM wrap value for 8-bit resolution
 
-#define TASK_STACK_SIZE 1000 // Stack size for FreeRTOS tasks
-#define TASK_PRIORITY 1 // Priority for FreeRTOS tasks
+#define NORMAL_TASK_STACK_SIZE 1000 // Stack size for FreeRTOS tasks
+#define NORMAL_TASK_PRIORITY 1 // Priority for FreeRTOS tasks
 
 #define AXIS_MAX_LIMIT 100 // Maximum axis limit
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
@@ -420,6 +420,7 @@ void grabber_controller(void* nothing)
 void x_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
+
     while (true)
     {
         switch (x_axis.state)
@@ -433,10 +434,10 @@ void x_axis_controller(void* nothing)
                 {
                     x_axis.state = DECREASE;
                 }
-            break;
+                break;
 
             case INCREASE:
-                if (x_axis.position < x_axis.max_limit && x_axis.position > x_axis.min_limit && gpio_get(MAX_X_In) == 0 && gpio_get(MIN_X_In) == 0)
+                if (x_axis.position < x_axis.max_limit && gpio_get(MAX_X_In) == 0)
                 {
                     gpio_put(DIR_X_Out, 1);
                     if (duty_cycle < PWM_WRAP_VALUE)
@@ -449,24 +450,15 @@ void x_axis_controller(void* nothing)
                 {
                     x_axis.state = SLOW;
                 }
-            break;
+                break;
 
             case DECREASE:
-                if (x_axis.position < x_axis.max_limit && x_axis.position > x_axis.min_limit)
+                if (x_axis.position > x_axis.min_limit && gpio_get(MIN_X_In) == 0)
                 {
                     gpio_put(DIR_X_Out, 0);
-                    if (duty_cycle > 0)
+                    if (duty_cycle < PWM_WRAP_VALUE)
                     {
-                        duty_cycle--;
-                    }
-                    set_pwm(PWM_X_Out, duty_cycle);
-                }
-                else if (gpio_get(MAX_X_In) == 1 && gpio_get(MIN_X_In) == 1)
-                {
-                    gpio_put(DIR_X_Out, 0);
-                    if (duty_cycle > 0)
-                    {
-                        duty_cycle--;
+                        duty_cycle++;
                     }
                     set_pwm(PWM_X_Out, duty_cycle);
                 }
@@ -474,12 +466,13 @@ void x_axis_controller(void* nothing)
                 {
                     x_axis.state = SLOW;
                 }
-            break;
+                break;
 
             case SLOW:
                 set_pwm(PWM_X_Out, 0);
+                duty_cycle = 0;
                 x_axis.state = IDLE_AXIS;
-            break;
+                break;
         }
 
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -490,6 +483,7 @@ void x_axis_controller(void* nothing)
 void y_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
+
     while (true)
     {
         switch (y_axis.state)
@@ -503,10 +497,10 @@ void y_axis_controller(void* nothing)
                 {
                     y_axis.state = DECREASE;
                 }
-            break;
+                break;
 
             case INCREASE:
-                if (y_axis.position < y_axis.max_limit && y_axis.position > y_axis.min_limit && gpio_get(MAX_Y_In) == 0 && gpio_get(MIN_Y_In) == 0)
+                if (y_axis.position < y_axis.max_limit && gpio_get(MAX_Y_In) == 0)
                 {
                     gpio_put(DIR_Y_Out, 1);
                     if (duty_cycle < PWM_WRAP_VALUE)
@@ -519,15 +513,15 @@ void y_axis_controller(void* nothing)
                 {
                     y_axis.state = SLOW;
                 }
-            break;
+                break;
 
             case DECREASE:
-                if (y_axis.position < y_axis.max_limit && y_axis.position > y_axis.min_limit)
+                if (y_axis.position > y_axis.min_limit && gpio_get(MIN_Y_In) == 0)
                 {
                     gpio_put(DIR_Y_Out, 0);
-                    if (duty_cycle > 0)
+                    if (duty_cycle < PWM_WRAP_VALUE)
                     {
-                        duty_cycle--;
+                        duty_cycle++;
                     }
                     set_pwm(PWM_Y_Out, duty_cycle);
                 }
@@ -535,12 +529,13 @@ void y_axis_controller(void* nothing)
                 {
                     y_axis.state = SLOW;
                 }
-            break;
+                break;
 
             case SLOW:
                 set_pwm(PWM_Y_Out, 0);
+                duty_cycle = 0;
                 y_axis.state = IDLE_AXIS;
-            break;
+                break;
         }
 
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -551,6 +546,7 @@ void y_axis_controller(void* nothing)
 void z_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
+
     while (true)
     {
         switch (z_axis.state)
@@ -564,10 +560,10 @@ void z_axis_controller(void* nothing)
                 {
                     z_axis.state = DECREASE;
                 }
-            break;
+                break;
 
             case INCREASE:
-                if (z_axis.position < z_axis.max_limit && z_axis.position > z_axis.min_limit && gpio_get(MAX_Z_In) == 0 && gpio_get(MIN_Z_In) == 0)
+                if (z_axis.position < z_axis.max_limit && gpio_get(MAX_Z_In) == 0)
                 {
                     gpio_put(DIR_Z_Out, 1);
                     if (duty_cycle < PWM_WRAP_VALUE)
@@ -580,15 +576,15 @@ void z_axis_controller(void* nothing)
                 {
                     z_axis.state = SLOW;
                 }
-            break;
+                break;
 
             case DECREASE:
-                if (z_axis.position < z_axis.max_limit && z_axis.position > z_axis.min_limit)
+                if (z_axis.position > z_axis.min_limit && gpio_get(MIN_Z_In) == 0)
                 {
                     gpio_put(DIR_Z_Out, 0);
-                    if (duty_cycle > 0)
+                    if (duty_cycle < PWM_WRAP_VALUE)
                     {
-                        duty_cycle--;
+                        duty_cycle++;
                     }
                     set_pwm(PWM_Z_Out, duty_cycle);
                 }
@@ -596,12 +592,13 @@ void z_axis_controller(void* nothing)
                 {
                     z_axis.state = SLOW;
                 }
-            break;
+                break;
 
             case SLOW:
                 set_pwm(PWM_Z_Out, 0);
+                duty_cycle = 0;
                 z_axis.state = IDLE_AXIS;
-            break;
+                break;
         }
 
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -666,13 +663,13 @@ int main()
     
     setup_gpio();
 
-    xTaskCreate(console_input_handler, "console_input_handler", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
-    xTaskCreate(i2c_controller, "i2c_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
-    xTaskCreate(read_grabber_status, "read_grabber_status", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
-    xTaskCreate(x_axis_controller, "x_axis_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
-    xTaskCreate(y_axis_controller, "y_axis_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
-    xTaskCreate(z_axis_controller, "z_axis_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
-    xTaskCreate(grabber_controller, "grabber_controller", TASK_STACK_SIZE, NULL, TASK_PRIORITY, NULL);
+    xTaskCreate(console_input_handler, "console_input_handler", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    xTaskCreate(i2c_controller, "i2c_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    xTaskCreate(read_grabber_status, "read_grabber_status", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    xTaskCreate(x_axis_controller, "x_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    xTaskCreate(y_axis_controller, "y_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    xTaskCreate(z_axis_controller, "z_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    xTaskCreate(grabber_controller, "grabber_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
 
     vTaskStartScheduler();
 }
