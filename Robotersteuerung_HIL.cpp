@@ -510,7 +510,7 @@ void y_axis_controller(void* nothing)
                     }
                     set_pwm(PWM_Y_Out, duty_cycle);
                 }
-                else
+                else                
                 {
                     y_axis.state = SLOW;
                 }
