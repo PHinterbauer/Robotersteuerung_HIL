@@ -146,7 +146,7 @@ void remove_all_spaces(char* input)
     {
         if (*temp != ' ') 
         {
-            *output++ = *temp;
+            *output++ = *temp; // Copy non-space characters
         }
         temp++;
     }
@@ -160,7 +160,7 @@ void check_command_format(char* input, Command* command)
 
     while (single_command != NULL)
     {
-        remove_all_spaces(single_command);
+        remove_all_spaces(single_command); // Remove spaces from the command
         if (sscanf(single_command, "x%d,y%d,z%d,grabber%d", &command->x, &command->y, &command->z, &command->grabber_status) == 4)
         {
             if (command->x < AXIS_MIN_LIMIT || command->x > AXIS_MAX_LIMIT ||
@@ -172,7 +172,7 @@ void check_command_format(char* input, Command* command)
             }
             else if (command_count < MAX_COMMANDS)
             {
-                command_list[command_count++] = *command;
+                command_list[command_count++] = *command; // Add valid command to the list
                 printf("Command added: 'x %d, y %d, z %d, grabber %d'\n", command->x, command->y, command->z, command->grabber_status);
             }
             else
@@ -327,13 +327,13 @@ void i2c_controller(void* nothing)
         int x_axis_data = 0;
         if (i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true) < 0)
         {
-            printf("I2C write failed for x-axis\n");
+            printf("I2C write failed for x-axis\n"); // Handle I2C write failure
         }
         if (i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &x_axis_data, 4, false) < 0)
         {
-            printf("I2C read failed for x-axis\n");
+            printf("I2C read failed for x-axis\n"); // Handle I2C read failure
         }
-        x_axis.position = x_axis_data;
+        x_axis.position = x_axis_data; // Update x-axis position
 
         reg_addr = 0x04;
         int y_axis_data = 0;
@@ -345,7 +345,7 @@ void i2c_controller(void* nothing)
         {
             printf("I2C read failed for y-axis\n");
         }
-        y_axis.position = y_axis_data;
+        y_axis.position = y_axis_data; // Update y-axis position
 
         reg_addr = 0x08;
         int z_axis_data = 0;
@@ -357,9 +357,9 @@ void i2c_controller(void* nothing)
         {
             printf("I2C read failed for z-axis\n");
         }
-        z_axis.position = z_axis_data;
+        z_axis.position = z_axis_data; // Update z-axis position
         
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
