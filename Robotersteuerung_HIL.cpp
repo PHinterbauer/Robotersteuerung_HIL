@@ -608,6 +608,7 @@ void z_axis_controller(void* nothing)
 // Configures GPIO pins for input/output and initializes pull-up resistors
 void setup_gpio()
 {
+    // List of GPIO pins for input that require pull-up resistors
     const int gpio_input_pins_pull_up[] = {
         Button_X_Inc, 
         Button_X_Dec, 
@@ -620,6 +621,7 @@ void setup_gpio()
         SENSOR_Grabber_Close_In
     };
 
+    // List of GPIO pins for input without pull-up resistors
     const int gpio_input_pins[] = {
         MIN_X_In, 
         MAX_X_In, 
@@ -629,6 +631,7 @@ void setup_gpio()
         MAX_Z_In
     };
 
+    // List of GPIO pins for output
     const int gpio_output_pins[] = {
         PWM_X_Out, 
         DIR_X_Out, 
@@ -640,6 +643,7 @@ void setup_gpio()
         GPIO_Grabber_Close_Out
     };
 
+    // Initialize GPIO pins
     for (int i : gpio_input_pins_pull_up)
     {
         init_gpio_input(i, true);
