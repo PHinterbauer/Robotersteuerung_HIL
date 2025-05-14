@@ -136,15 +136,30 @@ void set_pwm(int gpio_pin, int duty_cycle)
     pwm_set_enabled(slice_num, true);
 }
 
+// Removes unwanted spaces from the input string
+... // DOESNT WORK PROPERLY CHANGE SSCANF FORMAT TO WORK WITHOUT SPACES
+void remove_unwanted_spaces(char* input)
+{
+    char* temp = input; 
+    char* output = input;
+
+    while (*temp != '\0') 
+    {
+        if (*temp != ' ') 
+        {
+            *output++ = *temp;
+        }
+        temp++;
+    }
+    *output = '\0'; // Null-terminate the modified string
+}
+
 // Parses a command string and fills the Command struct
 void check_command_format(char* input, Command* command)
 {
     char* single_command = strtok(input, ";");
 
-    if (*single_command == ' ') // Skip leading spaces
-    {
-        single_command++;
-    }
+    remove_unwanted_spaces(single_command);
 
     while (single_command != NULL)
     {
@@ -195,10 +210,13 @@ void execute_commands()
             if (x_axis.position < target_x) 
             {
                 gpio_put(Button_X_Inc, 1); 
-            } else if (x_axis.position > target_x) 
+            } 
+            else if (x_axis.position > target_x) 
             {
                 gpio_put(Button_X_Dec, 1); 
-            } else {
+            } 
+            else 
+            {
                 gpio_put(Button_X_Inc, 0);
                 gpio_put(Button_X_Dec, 0);
             }
@@ -206,10 +224,13 @@ void execute_commands()
             if (y_axis.position < target_y) 
             {
                 gpio_put(Button_Y_Inc, 1);
-            } else if (y_axis.position > target_y) 
+            } 
+            else if (y_axis.position > target_y) 
             {
                 gpio_put(Button_Y_Dec, 1);
-            } else {
+            } 
+            else 
+            {
                 gpio_put(Button_Y_Inc, 0);
                 gpio_put(Button_Y_Dec, 0);
             }
@@ -217,10 +238,13 @@ void execute_commands()
             if (z_axis.position < target_z) 
             {
                 gpio_put(Button_Z_Inc, 1);
-            } else if (z_axis.position > target_z) 
+            } 
+            else if (z_axis.position > target_z) 
             {
                 gpio_put(Button_Z_Dec, 1);
-            } else {
+            } 
+            else 
+            {
                 gpio_put(Button_Z_Inc, 0);
                 gpio_put(Button_Z_Dec, 0);
             }
@@ -231,7 +255,8 @@ void execute_commands()
         if (grabber.status != target_grabber) 
         {
             gpio_put(Button_Grabber, 1);
-        } else
+        } 
+        else
         {
             gpio_put(Button_Grabber, 0);
         }
@@ -252,11 +277,6 @@ void console_input_handler(void* nothing)
             char input[MAX_COMMAND_LENGTH];
             char temp;
             int i = 0;
-            // ERROR ENTER COMMAND TEXT GETS PRINTED DURING COMMANDS GET DISPLAYED
-            // Command added: x 234, y 234, z 242, grabber 1
-            // Enter command, 'run', or 'display': Command added: x 124, y 234, z 234, grabber 0
-            // Enter command, 'run', or 'display': Command added: x 123, y 422, z 234, grabber 0
-            ...
 
             printf("Enter command, 'run', or 'display': \n");
             while (i <(MAX_COMMAND_LENGTH - 1))
