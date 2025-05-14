@@ -391,24 +391,24 @@ void grabber_controller(void* nothing)
            case IDLE_GRABBER:
                 if (grabber.status == 0 && gpio_get(Button_Grabber) == 1)
                 {
-                    grabber.state = OPEN;
+                    grabber.state = OPEN; // Transition to OPEN state if button is pressed and grabber is closed
                 }
                 else if (grabber.status == 1 && gpio_get(Button_Grabber) == 1)
                 {
-                    grabber.state = CLOSE;
+                    grabber.state = CLOSE; // Transition to CLOSE state if button is pressed and grabber is open
                 }
             break;
 
             case OPEN:
-                gpio_put(GPIO_Grabber_Open_Out, 1);
+                gpio_put(GPIO_Grabber_Open_Out, 1); // Open the grabber
                 gpio_put(GPIO_Grabber_Close_Out, 0);
-                grabber.state = IDLE_GRABBER;
+                grabber.state = IDLE_GRABBER; // Return to idle state
             break;
 
             case CLOSE:
-                gpio_put(GPIO_Grabber_Open_Out, 0);
-                gpio_put(GPIO_Grabber_Close_Out, 1);
-                grabber.state = IDLE_GRABBER;
+                gpio_put(GPIO_Grabber_Open_Out, 0); 
+                gpio_put(GPIO_Grabber_Close_Out, 1); // Close the grabber
+                grabber.state = IDLE_GRABBER; // Return to idle state
             break;
         }
 
@@ -419,59 +419,59 @@ void grabber_controller(void* nothing)
 // Controls the X-axis motor based on button input and position limits
 void x_axis_controller(void* nothing)
 {
-    int duty_cycle = 0;
+    int duty_cycle = 0; // Initialize duty cycle for PWM control
 
     while (true)
     {
         switch (x_axis.state)
         {
             case IDLE_AXIS:
-                if (gpio_get(Button_X_Inc) == 1)
+                if (gpio_get(Button_X_Inc) == 1) // Check if increment button is pressed
                 {
-                    x_axis.state = INCREASE;
+                    x_axis.state = INCREASE; // Transition to INCREASE state
                 }
-                else if (gpio_get(Button_X_Dec) == 1)
+                else if (gpio_get(Button_X_Dec) == 1) // Check if decrement button is pressed
                 {
-                    x_axis.state = DECREASE;
+                    x_axis.state = DECREASE; // Transition to DECREASE state
                 }
                 break;
 
             case INCREASE:
-                if (x_axis.position < x_axis.max_limit && gpio_get(MAX_X_In) == 0)
+                if (x_axis.position < x_axis.max_limit && gpio_get(MAX_X_In) == 0) // Ensure within limits
                 {
-                    gpio_put(DIR_X_Out, 1);
-                    if (duty_cycle < PWM_WRAP_VALUE)
+                    gpio_put(DIR_X_Out, 1); // Set direction to increase
+                    if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_X_Out, duty_cycle);
+                    set_pwm(PWM_X_Out, duty_cycle); // Apply PWM signal
                 }
                 else
                 {
-                    x_axis.state = SLOW;
+                    x_axis.state = SLOW; // Transition to SLOW state if limit is reached
                 }
                 break;
 
             case DECREASE:
-                if (x_axis.position > x_axis.min_limit && gpio_get(MIN_X_In) == 0)
+                if (x_axis.position > x_axis.min_limit && gpio_get(MIN_X_In) == 0) // Ensure within limits
                 {
-                    gpio_put(DIR_X_Out, 0);
-                    if (duty_cycle < PWM_WRAP_VALUE)
+                    gpio_put(DIR_X_Out, 0); // Set direction to decrease
+                    if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_X_Out, duty_cycle);
+                    set_pwm(PWM_X_Out, duty_cycle); // Apply PWM signal
                 }
                 else
                 {
-                    x_axis.state = SLOW;
+                    x_axis.state = SLOW; // Transition to SLOW state if limit is reached
                 }
                 break;
 
             case SLOW:
-                set_pwm(PWM_X_Out, 0);
-                duty_cycle = 0;
-                x_axis.state = IDLE_AXIS;
+                set_pwm(PWM_X_Out, 0); // Stop motor by setting PWM to 0
+                duty_cycle = 0; // Reset duty cycle
+                x_axis.state = IDLE_AXIS; // Return to IDLE state
                 break;
         }
 
@@ -479,7 +479,7 @@ void x_axis_controller(void* nothing)
     }
 }
 
-// Controls the Y-axis motor based on button input and position limits
+// Controls the Y-axis motor based on button input and position limits (for further info look at x_axis_controller)
 void y_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
@@ -542,7 +542,7 @@ void y_axis_controller(void* nothing)
     }
 }
 
-// Controls the Z-axis motor based on button input and position limits
+// Controls the Z-axis motor based on button input and position limits (for further info look at x_axis_controller)
 void z_axis_controller(void* nothing)
 {
     int duty_cycle = 0;
