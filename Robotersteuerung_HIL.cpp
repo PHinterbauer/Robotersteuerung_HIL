@@ -170,7 +170,7 @@ void check_command_format(char* input, Command* command)
             {
                 printf("Values out of range: 'x %d, y %d, z %d, grabber %d' -> Skipped.\n", command->x, command->y, command->z, command->grabber_status);
             }
-            else if (command_count < MAX_COMMANDS)
+            else if (command_count < MAX_COMMANDS) // Ensure command list is not full
             {
                 command_list[command_count++] = *command; // Add valid command to the list
                 printf("Command added: 'x %d, y %d, z %d, grabber %d'\n", command->x, command->y, command->z, command->grabber_status);
@@ -203,67 +203,69 @@ void execute_commands()
     printf("Executing commands:\n");
     for (int i = 0; i < command_count; i++)
     {
-        target_x = command_list[i].x;
-        target_y = command_list[i].y;
-        target_z = command_list[i].z;
-        target_grabber = command_list[i].grabber_status;
+        target_x = command_list[i].x; // Set target X-axis position
+        target_y = command_list[i].y; // Set target Y-axis position
+        target_z = command_list[i].z; // Set target Z-axis position
+        target_grabber = command_list[i].grabber_status; // Set target grabber state
 
         printf("Executing command %d: 'x %d, y %d, z %d, grabber %d'\n", i + 1, target_x, target_y, target_z, target_grabber);
 
+        // Move axes to target positions
         while (x_axis.position != target_x || y_axis.position != target_y || z_axis.position != target_z)
         {
             if (x_axis.position < target_x) 
             {
-                gpio_put(Button_X_Inc, 1); 
+                gpio_put(Button_X_Inc, 1); // Increment X-axis
             } 
             else if (x_axis.position > target_x) 
             {
-                gpio_put(Button_X_Dec, 1); 
+                gpio_put(Button_X_Dec, 1); // Decrement X-axis
             } 
             else 
             {
-                gpio_put(Button_X_Inc, 0);
+                gpio_put(Button_X_Inc, 0); // Stop X-axis movement
                 gpio_put(Button_X_Dec, 0);
             }
 
             if (y_axis.position < target_y) 
             {
-                gpio_put(Button_Y_Inc, 1);
+                gpio_put(Button_Y_Inc, 1); // Increment Y-axis
             } 
             else if (y_axis.position > target_y) 
             {
-                gpio_put(Button_Y_Dec, 1);
+                gpio_put(Button_Y_Dec, 1); // Decrement Y-axis
             } 
             else 
             {
-                gpio_put(Button_Y_Inc, 0);
+                gpio_put(Button_Y_Inc, 0); // Stop Y-axis movement
                 gpio_put(Button_Y_Dec, 0);
             }
 
             if (z_axis.position < target_z) 
             {
-                gpio_put(Button_Z_Inc, 1);
+                gpio_put(Button_Z_Inc, 1); // Increment Z-axis
             } 
             else if (z_axis.position > target_z) 
             {
-                gpio_put(Button_Z_Dec, 1);
+                gpio_put(Button_Z_Dec, 1); // Decrement Z-axis
             } 
             else 
             {
-                gpio_put(Button_Z_Inc, 0);
+                gpio_put(Button_Z_Inc, 0); // Stop Z-axis movement
                 gpio_put(Button_Z_Dec, 0);
             }
 
             vTaskDelay(pdMS_TO_TICKS(10));
         }
 
+        // Control grabber state
         if (grabber.status != target_grabber) 
         {
-            gpio_put(Button_Grabber, 1);
+            gpio_put(Button_Grabber, 1); // Activate grabber button
         } 
         else
         {
-            gpio_put(Button_Grabber, 0);
+            gpio_put(Button_Grabber, 0); // Deactivate grabber button
         }
     }
     command_count = 0; // Clear the command list after execution
@@ -281,35 +283,34 @@ void console_input_handler(void* nothing)
         printf("====================================================================================================================\n");
         while (true)
         {
-            char input[MAX_COMMAND_LENGTH];
-            char temp;
+            char input[MAX_COMMAND_LENGTH]; // Buffer for user input
+            char temp; // Temporary character for reading input
             int i = 0;
 
             printf("Enter command, 'run', or 'display': \n");
-            while (i <(MAX_COMMAND_LENGTH - 1))
+            while (i <(MAX_COMMAND_LENGTH - 1)) // Read input until buffer is full
             {
                 scanf("%c", &temp);
-                if (temp == '\n')
+                if (temp == '\n') // Stop reading on newline
                 {
                     break;
                 }
-                input[i++] = temp;
+                input[i++] = temp; // Store character in buffer
             }
-            input[i] = '\0';
+            input[i] = '\0'; // Null-terminate the input string
 
-            if (strcmp(input, "run") == 0)
+            if (strcmp(input, "run") == 0) // Check if user entered "run"
             {
-                execute_commands();
-            } else if (strcmp(input, "display") == 0)
+                execute_commands(); // Execute stored commands
+            } 
+            else if (strcmp(input, "display") == 0) // Check if user entered "display"
             {
-                display_commands();
-            } else
+                display_commands(); // Display stored commands
+            } 
+            else // Assume input is a command
             {
-                if (command_count < MAX_COMMANDS)
-                {
-                    Command command;
-                    check_command_format(input, &command);
-                }
+                Command command;
+                check_command_format(input, &command); // Parse and validate the command
             }
         
         vTaskDelay(pdMS_TO_TICKS(100));
