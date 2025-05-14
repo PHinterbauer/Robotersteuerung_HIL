@@ -49,9 +49,9 @@
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
 #define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
 
-#define USE_CONSOLE_FOR_INPUT 0 // Flag to use console for input
+#define ENABLE_CONSOLE_FOR_INPUT 0 // Flag to use console for input
 #define MAX_COMMANDS 100 // Maximum number of commands for console input
-#define MAX_COMMAND_LENGTH 256 // Maximum length of input string for command
+#define MAX_COMMAND_LENGTH 3000 // Maximum length of input string for command
 
 // Enumeration for axis states
 enum AxisState 
@@ -137,8 +137,7 @@ void set_pwm(int gpio_pin, int duty_cycle)
 }
 
 // Removes unwanted spaces from the input string
-... // DOESNT WORK PROPERLY CHANGE SSCANF FORMAT TO WORK WITHOUT SPACES
-void remove_unwanted_spaces(char* input)
+void remove_all_spaces(char* input)
 {
     char* temp = input; 
     char* output = input;
@@ -157,18 +156,24 @@ void remove_unwanted_spaces(char* input)
 // Parses a command string and fills the Command struct
 void check_command_format(char* input, Command* command)
 {
-    char* single_command = strtok(input, ";");
-
-    remove_unwanted_spaces(single_command);
+    char* single_command = strtok(input, ";"); // Split the input string into individual commands
 
     while (single_command != NULL)
     {
-        if (sscanf(single_command, "x %d, y %d, z %d, grabber %d", &command->x, &command->y, &command->z, &command->grabber_status) == 4)
+        remove_all_spaces(single_command);
+        if (sscanf(single_command, "x%d,y%d,z%d,grabber%d", &command->x, &command->y, &command->z, &command->grabber_status) == 4)
         {
-            if (command_count < MAX_COMMANDS)
+            if (command->x < AXIS_MIN_LIMIT || command->x > AXIS_MAX_LIMIT ||
+                command->y < AXIS_MIN_LIMIT || command->y > AXIS_MAX_LIMIT ||
+                command->z < AXIS_MIN_LIMIT || command->z > Z_AXIS_MAX_LIMIT ||
+                (command->grabber_status != 0 && command->grabber_status != 1))
+            {
+                printf("Values out of range: 'x %d, y %d, z %d, grabber %d' -> Skipped.\n", command->x, command->y, command->z, command->grabber_status);
+            }
+            else if (command_count < MAX_COMMANDS)
             {
                 command_list[command_count++] = *command;
-                printf("Command added: x %d, y %d, z%d, grabber %d\n", command->x, command->y, command->z, command->grabber_status);
+                printf("Command added: 'x %d, y %d, z %d, grabber %d'\n", command->x, command->y, command->z, command->grabber_status);
             }
             else
             {
@@ -176,9 +181,9 @@ void check_command_format(char* input, Command* command)
             }
         } else
         {
-            printf("Invalid command format: '%s'. Skipped.\n", single_command);
+            printf("Invalid command format: '%s' -> Skipped.\n", single_command);
         }
-        single_command = strtok(NULL, ";");
+        single_command = strtok(NULL, ";"); // Get the next command
     }
 }
 
@@ -188,7 +193,7 @@ void display_commands()
     printf("Stored commands:\n");
     for (int i = 0; i < command_count; i++)
     {
-        printf("Command %d: x %d, y %d, z %d, grabber %d\n", i + 1, command_list[i].x, command_list[i].y, command_list[i].z, command_list[i].grabber_status);
+        printf("Command %d: 'x %d, y %d, z %d, grabber %d'\n", i + 1, command_list[i].x, command_list[i].y, command_list[i].z, command_list[i].grabber_status);
     }
 }
 
@@ -203,7 +208,7 @@ void execute_commands()
         target_z = command_list[i].z;
         target_grabber = command_list[i].grabber_status;
 
-        printf("Executing command %d: x %f, y %f, z %f, grabber %d\n", i + 1, target_x, target_y, target_z, target_grabber);
+        printf("Executing command %d: 'x %d, y %d, z %d, grabber %d'\n", i + 1, target_x, target_y, target_z, target_grabber);
 
         while (x_axis.position != target_x || y_axis.position != target_y || z_axis.position != target_z)
         {
@@ -267,11 +272,13 @@ void execute_commands()
 // Reads console input and adds commands to the command list
 void console_input_handler(void* nothing)
 {   
-    if (USE_CONSOLE_FOR_INPUT)
+    if (ENABLE_CONSOLE_FOR_INPUT)
     {
         vTaskDelay(pdMS_TO_TICKS(1000)); // Wait for console to be ready
-        printf("Input format: x <int>, y <int>, z <int>, grabber <int 0 closed 1 open>\n");
-        printf("Enter command or 'run' to execute or 'display' to show commands\n");
+        printf("====================================================================================================================\n");
+        printf("Input format: x <int %d - %d>, y <int %d - %d>, z <int %d - %d>, grabber <int 0 closed 1 open>\n", AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT, Z_AXIS_MAX_LIMIT);
+        printf("Enter command or 'run' to execute or 'display' to show commands use ';' to write multiple commands in a single line.\n");
+        printf("====================================================================================================================\n");
         while (true)
         {
             char input[MAX_COMMAND_LENGTH];
