@@ -328,38 +328,20 @@ void i2c_controller(void* nothing)
         uint8_t reg_addr = 0x00;
 
         int x_axis_data = 0;
-        if (i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true) < 0)
-        {
-            printf("I2C write failed for x-axis\n"); // Handle I2C write failure
-        }
-        if (i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &x_axis_data, 4, false) < 0)
-        {
-            printf("I2C read failed for x-axis\n"); // Handle I2C read failure
-        }
+        i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
+        i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &x_axis_data, 4, false);
         x_axis.position = x_axis_data; // Update x-axis position
 
         reg_addr = 0x04;
         int y_axis_data = 0;
-        if (i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true) <0)
-        {
-            printf("I2C write failed for y-axis\n");
-        }
-        if (i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &y_axis_data, 4, false) < 0)
-        {
-            printf("I2C read failed for y-axis\n");
-        }
+        i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
+        i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &y_axis_data, 4, false);
         y_axis.position = y_axis_data; // Update y-axis position
 
         reg_addr = 0x08;
         int z_axis_data = 0;
-        if (i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true) < 0)
-        {
-            printf("I2C write failed for z-axis\n");
-        }
-        if (i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &z_axis_data, 4, false) < 0)
-        {
-            printf("I2C read failed for z-axis\n");
-        }
+        i2c_write_blocking(i2c0, I2C_ADDR, &reg_addr, 1, true);
+        i2c_read_blocking(i2c0, I2C_ADDR, (uint8_t*) &z_axis_data, 4, false);
         z_axis.position = z_axis_data; // Update z-axis position
         
         vTaskDelay(pdMS_TO_TICKS(10));
