@@ -131,12 +131,11 @@ void init_gpio_output(int pin)
 }
 
 // Sets up PWM on a given GPIO pin with a specified duty cycle
-void set_pwm(int gpio_pin, int duty_cycle) 
+void init_pwm_output(int gpio_pin) 
 {
     gpio_set_function(gpio_pin, GPIO_FUNC_PWM);
     uint slice_num = pwm_gpio_to_slice_num(gpio_pin);
     pwm_set_wrap(slice_num, PWM_WRAP_VALUE);
-    pwm_set_chan_level(slice_num, pwm_gpio_to_channel(gpio_pin), duty_cycle); 
     pwm_set_enabled(slice_num, true);
 }
 
@@ -429,7 +428,7 @@ void x_axis_controller(void* nothing)
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_X_Out, duty_cycle); // Apply PWM signal
+                    pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
                 }
                 else
                 {
@@ -445,7 +444,7 @@ void x_axis_controller(void* nothing)
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_X_Out, duty_cycle); // Apply PWM signal
+                    pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
                 }
                 else
                 {
@@ -454,7 +453,7 @@ void x_axis_controller(void* nothing)
                 break;
 
             case SLOW:
-                set_pwm(PWM_X_Out, 0); // Stop motor by setting PWM to 0
+                pwm_set_gpio_level(PWM_X_Out, 0); // Stop motor by setting PWM to 0
                 duty_cycle = 0; // Reset duty cycle
                 x_axis.state = IDLE_AXIS; // Return to IDLE state
                 break;
@@ -492,7 +491,7 @@ void y_axis_controller(void* nothing)
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_Y_Out, duty_cycle);
+                    pwm_set_gpio_level(PWM_Y_Out, duty_cycle);
                 }
                 else                
                 {
@@ -508,7 +507,7 @@ void y_axis_controller(void* nothing)
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_Y_Out, duty_cycle);
+                    pwm_set_gpio_level(PWM_Y_Out, duty_cycle);
                 }
                 else
                 {
@@ -517,7 +516,7 @@ void y_axis_controller(void* nothing)
                 break;
 
             case SLOW:
-                set_pwm(PWM_Y_Out, 0);
+                pwm_set_gpio_level(PWM_Y_Out, 0);
                 duty_cycle = 0;
                 y_axis.state = IDLE_AXIS;
                 break;
@@ -555,7 +554,7 @@ void z_axis_controller(void* nothing)
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_Z_Out, duty_cycle);
+                    pwm_set_gpio_level(PWM_Z_Out, duty_cycle);
                 }
                 else
                 {
@@ -571,7 +570,7 @@ void z_axis_controller(void* nothing)
                     {
                         duty_cycle++;
                     }
-                    set_pwm(PWM_Z_Out, duty_cycle);
+                    pwm_set_gpio_level(PWM_Z_Out, duty_cycle);
                 }
                 else
                 {
@@ -580,7 +579,7 @@ void z_axis_controller(void* nothing)
                 break;
 
             case SLOW:
-                set_pwm(PWM_Z_Out, 0);
+                pwm_set_gpio_level(PWM_Z_Out, 0);
                 duty_cycle = 0;
                 z_axis.state = IDLE_AXIS;
                 break;
@@ -618,14 +617,18 @@ void setup_gpio()
 
     // List of GPIO pins for output
     const int gpio_output_pins[] = {
-        PWM_X_Out, 
         DIR_X_Out, 
-        PWM_Y_Out, 
         DIR_Y_Out,
-        PWM_Z_Out, 
         DIR_Z_Out, 
         GPIO_Grabber_Open_Out, 
         GPIO_Grabber_Close_Out
+    };
+
+    // List of GPIO pins for PWM output
+    const int pwm_output_pins[] = {
+        PWM_X_Out, 
+        PWM_Y_Out, 
+        PWM_Z_Out
     };
 
     // Initialize GPIO pins
@@ -642,6 +645,11 @@ void setup_gpio()
     for (int i : gpio_output_pins)
     {
         init_gpio_output(i);
+    }
+
+    for (int i : pwm_output_pins)
+    {
+        init_pwm_output(i);
     }
 }
 
