@@ -114,7 +114,8 @@ void init_gpio_input(int pin, bool pull_up)
 {
     gpio_init(pin);
     gpio_set_dir(pin, GPIO_IN);
-    if (pull_up) {
+    if (pull_up) 
+    {
         gpio_pull_up(pin);
     }
 }
@@ -179,7 +180,8 @@ void check_command_format(char* input, Command* command)
             {
                 printf("Command list is full. Cannot add more commands.\n");
             }
-        } else
+        } 
+        else
         {
             printf("Invalid command format: '%s' -> Skipped.\n", single_command);
         }
