@@ -279,47 +279,44 @@ void execute_commands()
 // Reads console input and adds commands to the command list
 void console_input_handler(void* nothing)
 {   
-    if (ENABLE_CONSOLE_FOR_INPUT)
+    vTaskDelay(pdMS_TO_TICKS(1000)); // Wait for console to be ready
+    printf("====================================================================================================================\n");
+    printf("Input format: x <int %d - %d>, y <int %d - %d>, z <int %d - %d>, grabber <int 0 closed 1 open>\n", AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT, Z_AXIS_MAX_LIMIT);
+    printf("Enter command or 'run' to execute or 'display' to show commands use ';' to write multiple commands in a single line.\n");
+    printf("====================================================================================================================\n");
+    while (true)
     {
-        vTaskDelay(pdMS_TO_TICKS(1000)); // Wait for console to be ready
-        printf("====================================================================================================================\n");
-        printf("Input format: x <int %d - %d>, y <int %d - %d>, z <int %d - %d>, grabber <int 0 closed 1 open>\n", AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT, AXIS_MAX_LIMIT, AXIS_MIN_LIMIT, Z_AXIS_MAX_LIMIT);
-        printf("Enter command or 'run' to execute or 'display' to show commands use ';' to write multiple commands in a single line.\n");
-        printf("====================================================================================================================\n");
-        while (true)
+        char input[MAX_COMMAND_LENGTH]; // Buffer for user input
+        char temp; // Temporary character for reading input
+        int i = 0;
+
+        printf("Enter command, 'run', or 'display': \n");
+        while (i <(MAX_COMMAND_LENGTH - 1)) // Read input until buffer is full
         {
-            char input[MAX_COMMAND_LENGTH]; // Buffer for user input
-            char temp; // Temporary character for reading input
-            int i = 0;
-
-            printf("Enter command, 'run', or 'display': \n");
-            while (i <(MAX_COMMAND_LENGTH - 1)) // Read input until buffer is full
+            scanf("%c", &temp);
+            if (temp == '\n') // Stop reading on newline
             {
-                scanf("%c", &temp);
-                if (temp == '\n') // Stop reading on newline
-                {
-                    break;
-                }
-                input[i++] = temp; // Store character in buffer
+                break;
             }
-            input[i] = '\0'; // Null-terminate the input string
-
-            if (strcmp(input, "run") == 0) // Check if user entered "run"
-            {
-                execute_commands(); // Execute stored commands
-            } 
-            else if (strcmp(input, "display") == 0) // Check if user entered "display"
-            {
-                display_commands(); // Display stored commands
-            } 
-            else // Assume input is a command
-            {
-                Command command;
-                check_command_format(input, &command); // Parse and validate the command
-            }
-        
-        vTaskDelay(pdMS_TO_TICKS(100));
+            input[i++] = temp; // Store character in buffer
         }
+        input[i] = '\0'; // Null-terminate the input string
+
+        if (strcmp(input, "run") == 0) // Check if user entered "run"
+        {
+            execute_commands(); // Execute stored commands
+        } 
+        else if (strcmp(input, "display") == 0) // Check if user entered "display"
+        {
+            display_commands(); // Display stored commands
+        } 
+        else // Assume input is a command
+        {
+            Command command;
+            check_command_format(input, &command); // Parse and validate the command
+        }
+    
+    vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
@@ -673,7 +670,10 @@ int main()
     
     setup_gpio();
 
+    if (ENABLE_CONSOLE_FOR_INPUT) // Only start console input handler if enabled
+    {
     xTaskCreate(console_input_handler, "console_input_handler", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    }
     xTaskCreate(i2c_controller, "i2c_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
     xTaskCreate(read_grabber_status, "read_grabber_status", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
     xTaskCreate(x_axis_controller, "x_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
