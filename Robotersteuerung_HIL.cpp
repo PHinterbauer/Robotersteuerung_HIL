@@ -61,6 +61,7 @@ enum AxisState
 {
     IDLE_AXIS,
     INCREASE,
+    HOLD,
     DECREASE,
     SLOW
 };
@@ -401,6 +402,131 @@ void grabber_controller(void* nothing)
 }
 
 // Controls the X-axis motor based on button input and position limits
+// void x_axis_controller(void* nothing)
+// {
+//     int duty_cycle = 0; // Initialize duty cycle for PWM control
+
+//     while (true)
+//     {
+//         switch (x_axis.state)
+//         {
+//             case IDLE_AXIS:
+//                 if (gpio_get(Button_X_Inc) == 0) // Check if increment button is pressed
+//                 {
+//                     x_axis.state = INCREASE; // Transition to INCREASE state
+//                 }
+//                 else if (gpio_get(Button_X_Dec) == 0) // Check if decrement button is pressed
+//                 {
+//                     x_axis.state = DECREASE; // Transition to DECREASE state
+//                 }
+//                 break;
+
+//             case INCREASE:
+//                 if (x_axis.position <= x_axis.max_limit && gpio_get(MAX_X_In) == 0 && gpio_get(Button_X_Inc) == 0) // Ensure within limits
+//                 {
+//                     // gpio_put(DIR_X_Out, 1); // Set direction to increase
+//                     // if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
+//                     // {
+//                     //     duty_cycle++;
+//                     // }
+//                     // pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
+//                     // gpio_put(DIR_X_Out, 1); // Set direction to increase
+//                     // if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
+//                     // {
+//                     //     for (int i = 0; i < 10; i++) // Gradually increase duty cycle in steps
+//                     //     {
+//                     //         pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
+//                     //         duty_cycle ++;
+//                     //         vTaskDelay(pdMS_TO_TICKS(10)); // Delay to allow gradual increase
+//                     //     }
+//                     // }
+//                     // duty_cycle = 0; // Reset duty cycle after applying
+//                     // pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Hold current Velocity
+//                     // This case should increase the x acis pwm signal gradualy for a short ammount of time if the button is being held pressed after that time it should switch to hold
+//                     gpio_put(DIR_X_Out, 1); // Set direction to increase
+//                     if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
+//                     {
+//                         for (int i = 0; i < 10; i++) // Gradually increase duty cycle in steps
+//                         {
+//                             pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
+//                             duty_cycle ++;
+//                             vTaskDelay(pdMS_TO_TICKS(10)); // Delay to allow gradual increase
+//                         }
+//                         x_axis.state = HOLD; // Switch to HOLD state after gradual increase
+//                     }
+//                 }
+//                 else
+//                 {
+//                     x_axis.state = SLOW; // Transition to SLOW state if limit is reached
+//                 }
+//                 break;
+
+//             case HOLD:
+//                 if (x_axis.position <= x_axis.max_limit && gpio_get(MAX_X_In) == 0 && gpio_get(Button_X_Inc) == 0) // Ensure within limits
+//                 {
+//                     duty_cycle = 0;
+//                     pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Hold current Velocity
+//                 }
+//                 else
+//                 {
+//                     x_axis.state = SLOW; // Transition to SLOW state if limit is reached
+//                 }
+//                 break;
+
+//             case DECREASE:
+//                 if (x_axis.position >= x_axis.min_limit && gpio_get(MIN_X_In) == 0 && gpio_get(Button_X_Dec) == 0) // Ensure within limits
+//                 {
+//                     // gpio_put(DIR_X_Out, 0); // Set direction to decrease
+//                     // if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
+//                     // {
+//                     //     duty_cycle++;
+//                     // }
+//                     // pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
+//                     gpio_put(DIR_X_Out, 1); // Set direction to increase
+//                     if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
+//                     {
+//                         for (int i = 0; i < 10; i++) // Gradually increase duty cycle in steps
+//                         {
+//                             pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
+//                             duty_cycle --;
+//                             vTaskDelay(pdMS_TO_TICKS(10)); // Delay to allow gradual increase
+//                         }
+//                         x_axis.state = HOLD; // Switch to HOLD state after gradual increase
+//                     }
+//                 }
+//                 else
+//                 {
+//                     x_axis.state = SLOW; // Transition to SLOW state if limit is reached
+//                 }
+//                 break;
+
+//             case SLOW: 
+//                 int last_position = x_axis.position;
+//                 // Gradually decrease duty cycle to slow down the axis
+//                 while (duty_cycle >= 0)
+//                 {
+//                     pwm_set_gpio_level(PWM_X_Out, duty_cycle);
+//                     duty_cycle--;
+//                     vTaskDelay(pdMS_TO_TICKS(10)); // Slightly longer delay for smoother deceleration
+
+//                     // Check if the axis position has stopped changing
+//                     if (x_axis.position == last_position)
+//                     {
+//                         // If position hasn't changed, stop the motor
+//                         break;
+//                     }
+//                     last_position = x_axis.position;
+//                 }
+//                 pwm_set_gpio_level(PWM_X_Out, 0); // Ensure motor is stopped
+//                 duty_cycle = 0;
+//                 x_axis.state = IDLE_AXIS;
+//                 break;
+//         }
+//         printf("Increasing X-axis: Position %d, Duty Cycle %d, STATE: %s, max_limit: %d, min_limit %d\n", x_axis.position, duty_cycle, x_axis.state == IDLE_AXIS ? "IDLE" : (x_axis.state == INCREASE ? "INCREASE" : (x_axis.state == DECREASE ? "DECREASE" : "SLOW")), x_axis.max_limit, x_axis.min_limit);
+
+//         vTaskDelay(pdMS_TO_TICKS(100));
+//     }
+// }
 void x_axis_controller(void* nothing)
 {
     int duty_cycle = 0; // Initialize duty cycle for PWM control
@@ -410,54 +536,89 @@ void x_axis_controller(void* nothing)
         switch (x_axis.state)
         {
             case IDLE_AXIS:
-                if (gpio_get(Button_X_Inc) == 1) // Check if increment button is pressed
+                // Wait for increment or decrement button press, only if not at limits
+                if (gpio_get(Button_X_Inc) == 0 && x_axis.position < x_axis.max_limit && gpio_get(MAX_X_In) == 0)
                 {
-                    x_axis.state = INCREASE; // Transition to INCREASE state
+                    x_axis.state = INCREASE;
                 }
-                else if (gpio_get(Button_X_Dec) == 1) // Check if decrement button is pressed
+                else if (gpio_get(Button_X_Dec) == 0 && x_axis.position > x_axis.min_limit && gpio_get(MIN_X_In) == 0)
                 {
-                    x_axis.state = DECREASE; // Transition to DECREASE state
+                    x_axis.state = DECREASE;
                 }
                 break;
 
             case INCREASE:
-                if (x_axis.position < x_axis.max_limit && gpio_get(MAX_X_In) == 0) // Ensure within limits
+                // Accelerate by increasing PWM a few steps if button is held and not at limit
+                if (gpio_get(Button_X_Inc) == 0 && x_axis.position < x_axis.max_limit && gpio_get(MAX_X_In) == 0)
                 {
                     gpio_put(DIR_X_Out, 1); // Set direction to increase
-                    if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
+                    for (int i = 0; i < 10 && duty_cycle < PWM_WRAP_VALUE; i++)
                     {
                         duty_cycle++;
+                        pwm_set_gpio_level(PWM_X_Out, duty_cycle);
+                        vTaskDelay(pdMS_TO_TICKS(10));
                     }
-                    pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
+                    x_axis.state = HOLD;
                 }
                 else
                 {
-                    x_axis.state = SLOW; // Transition to SLOW state if limit is reached
+                    x_axis.state = SLOW;
                 }
                 break;
 
             case DECREASE:
-                if (x_axis.position > x_axis.min_limit && gpio_get(MIN_X_In) == 0) // Ensure within limits
+                // Accelerate by increasing PWM a few steps if button is held and not at limit
+                if (gpio_get(Button_X_Dec) == 0 && x_axis.position > x_axis.min_limit && gpio_get(MIN_X_In) == 0)
                 {
                     gpio_put(DIR_X_Out, 0); // Set direction to decrease
-                    if (duty_cycle < PWM_WRAP_VALUE) // Gradually increase duty cycle
+                    for (int i = 0; i < 10 && duty_cycle < PWM_WRAP_VALUE; i++)
                     {
                         duty_cycle++;
+                        pwm_set_gpio_level(PWM_X_Out, duty_cycle);
+                        vTaskDelay(pdMS_TO_TICKS(10));
                     }
-                    pwm_set_gpio_level(PWM_X_Out, duty_cycle); // Apply PWM signal
+                    x_axis.state = HOLD;
                 }
                 else
                 {
-                    x_axis.state = SLOW; // Transition to SLOW state if limit is reached
+                    x_axis.state = SLOW;
                 }
                 break;
 
+            case HOLD:
+                // Hold velocity: set PWM to 0, keep direction, wait for button release or limit
+                pwm_set_gpio_level(PWM_X_Out, 0);
+                duty_cycle = 0;
+                if ((gpio_get(Button_X_Inc) == 1 && gpio_get(Button_X_Dec) == 1) ||
+                    x_axis.position >= x_axis.max_limit || gpio_get(MAX_X_In) == 1 ||
+                    x_axis.position <= x_axis.min_limit || gpio_get(MIN_X_In) == 1)
+                {
+                    x_axis.state = SLOW;
+                }
+                // Stay in HOLD as long as button is held and no limit is reached
+                break;
+
             case SLOW:
-                pwm_set_gpio_level(PWM_X_Out, 0); // Stop motor by setting PWM to 0
-                duty_cycle = 0; // Reset duty cycle
-                x_axis.state = IDLE_AXIS; // Return to IDLE state
+                // Decelerate: decrease PWM until no movement is detected, then go to IDLE
+                // int last_position = x_axis.position;
+                while (duty_cycle > 0)
+                {
+                    pwm_set_gpio_level(PWM_X_Out, duty_cycle);
+                    duty_cycle--;
+                    vTaskDelay(pdMS_TO_TICKS(20));
+                    // if (x_axis.position == last_position)
+                    // {
+                    //     break; // No movement detected
+                    // }
+                    // last_position = x_axis.position;
+                }
+                pwm_set_gpio_level(PWM_X_Out, 0);
+                duty_cycle = 0;
+                x_axis.state = IDLE_AXIS;
                 break;
         }
+        printf("Increasing X-axis: Position %d, Duty Cycle %d, STATE: %s, max_limit: %d, min_limit %d, position: %d\n", x_axis.position, duty_cycle, x_axis.state == IDLE_AXIS ? "IDLE" : (x_axis.state == INCREASE ? "INCREASE" : (x_axis.state == DECREASE ? "DECREASE" : "SLOW")), x_axis.max_limit, x_axis.min_limit, x_axis.position);
+
 
         vTaskDelay(pdMS_TO_TICKS(100));
     }
@@ -473,18 +634,18 @@ void y_axis_controller(void* nothing)
         switch (y_axis.state)
         {
             case IDLE_AXIS:
-                if (gpio_get(Button_Y_Inc) == 1)
+                if (gpio_get(Button_Y_Inc) == 0)
                 {
                     y_axis.state = INCREASE;
                 }
-                else if (gpio_get(Button_Y_Dec) == 1)
+                else if (gpio_get(Button_Y_Dec) == 0)
                 {
                     y_axis.state = DECREASE;
                 }
                 break;
 
             case INCREASE:
-                if (y_axis.position < y_axis.max_limit && gpio_get(MAX_Y_In) == 0)
+                if (y_axis.position < y_axis.max_limit && gpio_get(MAX_Y_In) == 0 && gpio_get(Button_Y_Inc) == 0)
                 {
                     gpio_put(DIR_Y_Out, 1);
                     if (duty_cycle < PWM_WRAP_VALUE)
@@ -500,7 +661,7 @@ void y_axis_controller(void* nothing)
                 break;
 
             case DECREASE:
-                if (y_axis.position > y_axis.min_limit && gpio_get(MIN_Y_In) == 0)
+                if (y_axis.position > y_axis.min_limit && gpio_get(MIN_Y_In) == 0 && gpio_get(Button_Y_Dec) == 0)
                 {
                     gpio_put(DIR_Y_Out, 0);
                     if (duty_cycle < PWM_WRAP_VALUE)
@@ -536,18 +697,18 @@ void z_axis_controller(void* nothing)
         switch (z_axis.state)
         {
             case IDLE_AXIS:
-                if (gpio_get(Button_Z_Inc) == 1)
+                if (gpio_get(Button_Z_Inc) == 0)
                 {
                     z_axis.state = INCREASE;
                 }
-                else if (gpio_get(Button_Z_Dec) == 1)
+                else if (gpio_get(Button_Z_Dec) == 0)
                 {
                     z_axis.state = DECREASE;
                 }
                 break;
 
             case INCREASE:
-                if (z_axis.position < z_axis.max_limit && gpio_get(MAX_Z_In) == 0)
+                if (z_axis.position < z_axis.max_limit && gpio_get(MAX_Z_In) == 0 && gpio_get(Button_Z_Inc) == 0)
                 {
                     gpio_put(DIR_Z_Out, 1);
                     if (duty_cycle < PWM_WRAP_VALUE)
@@ -563,7 +724,7 @@ void z_axis_controller(void* nothing)
                 break;
 
             case DECREASE:
-                if (z_axis.position > z_axis.min_limit && gpio_get(MIN_Z_In) == 0)
+                if (z_axis.position > z_axis.min_limit && gpio_get(MIN_Z_In) == 0 && gpio_get(Button_Z_Dec) == 0)
                 {
                     gpio_put(DIR_Z_Out, 0);
                     if (duty_cycle < PWM_WRAP_VALUE)
@@ -664,12 +825,12 @@ int main()
     {
     xTaskCreate(console_input_handler, "console_input_handler", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
     }
-    xTaskCreate(i2c_controller, "i2c_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
-    xTaskCreate(read_grabber_status, "read_grabber_status", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    // xTaskCreate(i2c_controller, "i2c_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    // xTaskCreate(read_grabber_status, "read_grabber_status", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
     xTaskCreate(x_axis_controller, "x_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
-    xTaskCreate(y_axis_controller, "y_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
-    xTaskCreate(z_axis_controller, "z_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
-    xTaskCreate(grabber_controller, "grabber_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    // xTaskCreate(y_axis_controller, "y_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    // xTaskCreate(z_axis_controller, "z_axis_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
+    // xTaskCreate(grabber_controller, "grabber_controller", NORMAL_TASK_STACK_SIZE, NULL, NORMAL_TASK_PRIORITY, NULL);
 
     vTaskStartScheduler();
 }
