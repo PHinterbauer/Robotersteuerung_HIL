@@ -49,7 +49,9 @@
 #define AXIS_MIN_LIMIT 0 // Minimum axis limit
 #define Z_AXIS_MAX_LIMIT 150 // Maximum Z-axis limit since it is different
 
+// ================================================================
 #define ENABLE_CONSOLE_FOR_INPUT 0 // Flag to use console for input
+// ================================================================
 #define MAX_COMMANDS 100 // Maximum number of commands for console input
 #define MAX_COMMAND_LENGTH 3000 // Maximum length of input string for command
 
